@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ep-gentle-sun-a1yarxw3-pooler.ap-southeast-1.aws.neon.tech/ai-chat
+    username: neondb_owner
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
