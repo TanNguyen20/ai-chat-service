@@ -3,7 +3,10 @@ package com.tannguyen.ai.controller;
 import com.tannguyen.ai.dto.request.AuthRequestDTO;
 import com.tannguyen.ai.dto.response.AuthResponseDTO;
 import com.tannguyen.ai.service.inf.AuthService;
+import com.tannguyen.ai.service.inf.TokenBlacklistService;
 import com.tannguyen.ai.util.JwtUtil;
+import com.tannguyen.ai.util.RequestUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,6 +28,7 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     private JwtUtil jwtUtil;
     private AuthService authService;
+    private TokenBlacklistService tokenBlacklistService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequestDTO request) {
@@ -40,5 +44,14 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody AuthRequestDTO request) {
         authService.register(request.getUsername(), request.getPassword());
         return ResponseEntity.ok("User registered");
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        String token = RequestUtil.extractTokenFromRequest(request);
+        if (token != null) {
+            tokenBlacklistService.blacklistToken(token);
+        }
+        return ResponseEntity.ok("Logged out successfully");
     }
 }

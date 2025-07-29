@@ -1,5 +1,6 @@
 package com.tannguyen.ai.model;
 
+import com.tannguyen.ai.model.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +14,7 @@ import org.hibernate.annotations.GenericGenerator;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChatbotInfo {
+public class ChatbotInfo extends Auditable {
 
     @Id
     @GeneratedValue(generator = "UUID")

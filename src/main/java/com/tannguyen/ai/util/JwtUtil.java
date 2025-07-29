@@ -46,4 +46,15 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token);
     }
+
+    public long getExpirationFromToken(String token) {
+        Claims claims = parseToken(token).getPayload();
+        Date expiration = claims.getExpiration();
+
+        if (expiration == null) {
+            throw new IllegalStateException("JWT token does not contain an expiration claim");
+        }
+
+        return expiration.getTime() - System.currentTimeMillis();
+    }
 }

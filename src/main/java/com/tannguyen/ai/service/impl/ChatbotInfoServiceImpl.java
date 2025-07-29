@@ -10,6 +10,7 @@ import com.tannguyen.ai.repository.UserRepository;
 import com.tannguyen.ai.service.inf.ChatbotInfoService;
 import com.tannguyen.ai.util.AESUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -53,4 +54,20 @@ public class ChatbotInfoServiceImpl implements ChatbotInfoService {
                 .build();
         chatbotInfoRepository.save(chatbotInfo);
     }
-} 
+
+    @Override
+    public void deleteChatbot(String uuid) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
+
+        ChatbotInfo chatbotInfo = chatbotInfoRepository.findById(uuid)
+                .orElseThrow(() -> new NotFoundException("Chatbot with ID " + uuid + " not found"));
+
+        // Check if the current user is the owner of the chatbot
+        if (!chatbotInfo.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You don't have permission to delete this chatbot");
+        }
+
+        chatbotInfoRepository.delete(chatbotInfo);
+    }
+}

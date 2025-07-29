@@ -1,4 +1,10 @@
 spring:
+  data:
+    redis:
+      host: redis-18467.c334.asia-southeast2-1.gce.redns.redis-cloud.com
+      port: 18467
+      username: default
+      password:
   datasource:
     url: jdbc:postgresql://ep-gentle-sun-a1yarxw3-pooler.ap-southeast-1.aws.neon.tech/ai-chat
     username: neondb_owner

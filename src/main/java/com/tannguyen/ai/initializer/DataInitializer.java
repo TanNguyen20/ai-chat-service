@@ -5,7 +5,6 @@ import com.tannguyen.ai.model.Role;
 import com.tannguyen.ai.model.User;
 import com.tannguyen.ai.repository.RoleRepository;
 import com.tannguyen.ai.repository.UserRepository;
-import com.tannguyen.ai.service.inf.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

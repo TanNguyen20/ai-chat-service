@@ -7,4 +7,6 @@ public interface ChatbotInfoService {
     void createChatbot(ChatbotCreateRequestDTO request);
 
     ChatbotInfoResponseDTO getChatbotInfo(String encryptedKey, String host);
+
+    void deleteChatbot(String uuid);
 } 

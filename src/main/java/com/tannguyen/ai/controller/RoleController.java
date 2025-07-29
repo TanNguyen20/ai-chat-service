@@ -16,7 +16,7 @@ public class RoleController {
 
     private final RoleService roleService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPERADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping()
     public ResponseEntity<?> getAllRoles() {
         return ResponseEntity.ok(roleService.getAllRoles());

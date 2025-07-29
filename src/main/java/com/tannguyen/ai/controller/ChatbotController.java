@@ -51,4 +51,10 @@ public class ChatbotController {
         chatbotInfoService.createChatbot(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<?> deleteChatbot(@PathVariable String uuid) {
+        chatbotInfoService.deleteChatbot(uuid);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

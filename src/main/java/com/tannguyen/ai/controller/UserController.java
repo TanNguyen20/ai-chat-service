@@ -21,7 +21,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PostMapping("/{userId}/roles")
     public ResponseEntity<?> assignRoleToUser(
             @PathVariable Long userId,
