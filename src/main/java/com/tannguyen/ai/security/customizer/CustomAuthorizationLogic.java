@@ -1,11 +1,11 @@
 package com.tannguyen.ai.security.customizer;
 
-import org.springframework.security.access.expression.method.MethodSecurityExpressionOperations;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component("authz")
 public class CustomAuthorizationLogic {
-    public boolean isMinimalRole(MethodSecurityExpressionOperations root) {
-        return !root.getAuthentication().getAuthorities().isEmpty();
+    public boolean isMinimalRole(Authentication authentication) {
+        return !authentication.getAuthorities().isEmpty();
     }
 }
