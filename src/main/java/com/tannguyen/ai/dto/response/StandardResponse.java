@@ -1,4 +1,4 @@
-package com.tannguyen.ai.model;
+package com.tannguyen.ai.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

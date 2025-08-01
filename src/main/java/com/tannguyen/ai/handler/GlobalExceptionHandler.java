@@ -1,9 +1,9 @@
 package com.tannguyen.ai.handler;
 
 import com.tannguyen.ai.dto.response.ResponseFactory;
+import com.tannguyen.ai.dto.response.StandardResponse;
 import com.tannguyen.ai.exception.NotFoundException;
 import com.tannguyen.ai.exception.ResourceAlreadyExistsException;
-import com.tannguyen.ai.model.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -1,6 +1,5 @@
 package com.tannguyen.ai.dto.response;
 
-import com.tannguyen.ai.model.StandardResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
