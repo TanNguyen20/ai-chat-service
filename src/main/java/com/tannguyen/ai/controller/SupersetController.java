@@ -1,7 +1,9 @@
 package com.tannguyen.ai.controller;
 
+import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.SupersetService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +20,7 @@ public class SupersetController {
 
     @GetMapping
     public ResponseEntity<?> getGuestToken() {
-        return ResponseEntity.ok(supersetService.getGuestToken());
+        return ResponseFactory.success(supersetService.getGuestToken(), "Get guest token successfully", HttpStatus.OK);
     }
 
 }

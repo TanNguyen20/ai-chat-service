@@ -2,12 +2,14 @@ package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.AuthRequestDTO;
 import com.tannguyen.ai.dto.response.AuthResponseDTO;
+import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.AuthService;
 import com.tannguyen.ai.service.inf.TokenBlacklistService;
 import com.tannguyen.ai.util.JwtUtil;
 import com.tannguyen.ai.util.RequestUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,21 +39,21 @@ public class AuthController {
         );
         UserDetails user = (UserDetails) authentication.getPrincipal();
         String token = jwtUtil.generateToken(user);
-        return ResponseEntity.ok(new AuthResponseDTO(token));
+        return ResponseFactory.success(new AuthResponseDTO(token), "Login successfully", HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody AuthRequestDTO request) {
         authService.register(request.getUsername(), request.getPassword());
-        return ResponseEntity.ok("User registered");
+        return ResponseFactory.success(null, "User registered", HttpStatus.CREATED);
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logout(HttpServletRequest request) {
+    public ResponseEntity<?> logout(HttpServletRequest request) {
         String token = RequestUtil.extractTokenFromRequest(request);
         if (token != null) {
             tokenBlacklistService.blacklistToken(token);
         }
-        return ResponseEntity.ok("Logged out successfully");
+        return ResponseFactory.success(null, "Logged out successfully", HttpStatus.NO_CONTENT);
     }
 }

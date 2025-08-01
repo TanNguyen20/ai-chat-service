@@ -1,12 +1,12 @@
 package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
-import com.tannguyen.ai.model.Analytics;
+import com.tannguyen.ai.dto.response.AnalyticsResponseDTO;
 
 import java.util.List;
 
 public interface AnalyticsService {
-    List<Analytics> getAnalyticsList();
+    List<AnalyticsResponseDTO> getAnalyticsList();
 
     void addAnalytics(AnalyticsRequestDTO request);
 

@@ -1,6 +1,7 @@
 package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
+import com.tannguyen.ai.dto.response.AnalyticsResponseDTO;
 import com.tannguyen.ai.exception.NotFoundException;
 import com.tannguyen.ai.model.Analytics;
 import com.tannguyen.ai.model.Role;
@@ -27,12 +28,13 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     private final RoleRepository roleRepository;
 
     @Override
-    public List<Analytics> getAnalyticsList() {
+    public List<AnalyticsResponseDTO> getAnalyticsList() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
         Set<Role> roles = user.getRoles();
+        List<Analytics> analyticsList = analyticsRepository.findAllByUsersContainingAndRolesIn(user, roles);
 
-        return analyticsRepository.findAllByUsersInOrRolesIn(List.of(List.of(user)), List.of(roles));
+        return analyticsList.stream().map(item -> AnalyticsResponseDTO.from(item)).toList();
     }
 
     @Override

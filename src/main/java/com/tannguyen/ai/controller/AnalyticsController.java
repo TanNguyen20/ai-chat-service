@@ -1,8 +1,10 @@
 package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
+import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.AnalyticsService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +19,18 @@ public class AnalyticsController {
 
     @GetMapping
     public ResponseEntity<?> getAnalyticsList() {
-        return ResponseEntity.ok(analyticsService.getAnalyticsList());
+        return ResponseFactory.success(analyticsService.getAnalyticsList(), "Get analytics list successfully", HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> createAnalytics(@RequestBody AnalyticsRequestDTO request) {
         analyticsService.addAnalytics(request);
-        return ResponseEntity.ok("Create analytics successfully");
+        return ResponseFactory.success(null, "Create analytics successfully", HttpStatus.CREATED);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteAnalytics(@PathVariable Long id) {
         analyticsService.deleteAnalytics(id);
-        return ResponseEntity.ok("Delete analytics successfully");
+        return ResponseFactory.success(null, "Delete analytics successfully", HttpStatus.NO_CONTENT);
     }
 }

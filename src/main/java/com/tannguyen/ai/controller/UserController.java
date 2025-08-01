@@ -1,8 +1,10 @@
 package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.RoleAssignmentRequestDTO;
+import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +20,7 @@ public class UserController {
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+        return ResponseFactory.success(userService.getAllUsers(), "Get all users successfully", HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
@@ -27,12 +29,12 @@ public class UserController {
             @PathVariable Long userId,
             @RequestBody RoleAssignmentRequestDTO request) {
         userService.assignedRoleToUser(userId, request.getRoles());
-        return ResponseEntity.ok("Role assigned successfully");
+        return ResponseFactory.success(null, "Role assigned successfully", HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/me")
     public ResponseEntity<?> getMyInfo() {
-        return ResponseEntity.ok(userService.getCurrentUser());
+        return ResponseFactory.success(userService.getCurrentUser(), "Get user info successfully", HttpStatus.OK);
     }
 }

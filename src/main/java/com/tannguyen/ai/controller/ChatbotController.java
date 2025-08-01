@@ -3,11 +3,16 @@ package com.tannguyen.ai.controller;
 import com.tannguyen.ai.dto.request.ChatbotCreateRequestDTO;
 import com.tannguyen.ai.dto.response.ChatbotConfigResponseDTO;
 import com.tannguyen.ai.dto.response.ChatbotInfoResponseDTO;
+import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.ApiKeyService;
 import com.tannguyen.ai.service.inf.ChatbotInfoService;
 import com.tannguyen.ai.util.CommonUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -37,24 +42,32 @@ public class ChatbotController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid API Key or unauthorized host");
         }
 
-        return ResponseEntity.ok(chatbotInfoResponseDTO);
+        return ResponseFactory.success(chatbotInfoResponseDTO, "Get chatbot info successfully", HttpStatus.OK);
     }
 
     @GetMapping("/config-info")
     public ResponseEntity<?> getChatbotConfigInfo() {
         List<ChatbotConfigResponseDTO> chatbotConfigResponseDTOList = apiKeyService.getListApiKeyByCurrentUser();
-        return ResponseEntity.ok(chatbotConfigResponseDTOList);
+        return ResponseFactory.success(chatbotConfigResponseDTOList, "Get chatbot config info list successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/config-info-pagination")
+    public ResponseEntity<?> getChatbotConfigInfoPagination(@RequestParam(defaultValue = "0") int page,
+                                                            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        Page<ChatbotConfigResponseDTO> chatbotConfigResponseDTOList = apiKeyService.getListApiKeyByCurrentUserPagination(pageable);
+        return ResponseFactory.success(chatbotConfigResponseDTOList, "Get chatbot config info list successfully", HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> createChatbot(@RequestBody ChatbotCreateRequestDTO request) {
         chatbotInfoService.createChatbot(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseFactory.success(null, "Create chatbot successfully", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{uuid}")
     public ResponseEntity<?> deleteChatbot(@PathVariable String uuid) {
         chatbotInfoService.deleteChatbot(uuid);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        return ResponseFactory.success(null, "Delete chatbot successfully", HttpStatus.NO_CONTENT);
     }
 }

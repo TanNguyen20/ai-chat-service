@@ -9,6 +9,8 @@ import com.tannguyen.ai.service.inf.ApiKeyService;
 import com.tannguyen.ai.util.AESUtil;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -35,5 +37,20 @@ public class ApiKeyServiceImpl implements ApiKeyService {
             String apiKey = AESUtil.encrypt(item.getUuid());
             return ChatbotConfigResponseDTO.from(item, apiKey);
         }).toList();
+    }
+
+    @Override
+    public Page<ChatbotConfigResponseDTO> getListApiKeyByCurrentUserPagination(Pageable pageable) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        Long userId = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found")).getId();
+
+        Page<ChatbotInfo> chatbotInfos = chatbotInfoRepository.findByUserId(userId, pageable);
+
+        return chatbotInfos.map(item -> {
+            String apiKey = AESUtil.encrypt(item.getUuid());
+            return ChatbotConfigResponseDTO.from(item, apiKey);
+        });
     }
 }
