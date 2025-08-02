@@ -32,19 +32,25 @@ public class AnalyticsServiceImpl implements AnalyticsService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
         Set<Role> roles = user.getRoles();
-        List<Analytics> analyticsList = analyticsRepository.findAllByUsersContainingAndRolesIn(user, roles);
+        List<Analytics> analyticsList = analyticsRepository.findAllByUsersContainingOrRolesIn(user, roles);
 
-        return analyticsList.stream().map(item -> AnalyticsResponseDTO.from(item)).toList();
+        return analyticsList.stream().map(AnalyticsResponseDTO::from).toList();
+    }
+
+    @Override
+    public AnalyticsResponseDTO getAnalyticsById(Long id) {
+        Analytics analytics = analyticsRepository.findById(id).orElseThrow(() -> new NotFoundException("Analytics not found"));
+        return AnalyticsResponseDTO.from(analytics);
     }
 
     @Override
     public void addAnalytics(AnalyticsRequestDTO request) {
-        List<User> users = userRepository.findAllByUsernameIn(request.getUsernames());
+        List<User> users = userRepository.findAllByUsernameIn(request.getUsers());
         Set<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
 
         Analytics analytics = new Analytics();
         analytics.setUsers(users);
-        analytics.setDasboardId(request.getDashboardId());
+        analytics.setDashboardId(request.getDashboardId());
         analytics.setDashboardHost(request.getDashboardHost());
         analytics.setDashboardTitle(request.getDashboardTitle());
         analytics.setRoles(roles);

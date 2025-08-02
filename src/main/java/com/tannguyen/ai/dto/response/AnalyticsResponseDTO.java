@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 public class AnalyticsResponseDTO {
     private Long id;
 
-    private String dasboardId;
+    private String dashboardId;
 
     private String dashboardHost;
 
@@ -29,7 +29,7 @@ public class AnalyticsResponseDTO {
     public static AnalyticsResponseDTO from(Analytics analytics) {
         return AnalyticsResponseDTO.builder()
                 .id(analytics.getId())
-                .dasboardId(analytics.getDasboardId())
+                .dashboardId(analytics.getDashboardId())
                 .dashboardHost(analytics.getDashboardHost())
                 .dashboardTitle(analytics.getDashboardTitle())
                 .roles(analytics.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))

@@ -13,7 +13,7 @@ public class AnalyticsRequestDTO {
 
     String dashboardTitle;
 
-    List<String> usernames;
+    List<String> users;
 
     List<RoleName> roles;
 }

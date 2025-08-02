@@ -22,6 +22,11 @@ public class AnalyticsController {
         return ResponseFactory.success(analyticsService.getAnalyticsList(), "Get analytics list successfully", HttpStatus.OK);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<?> getAnalyticsItemInfo(@PathVariable Long id) {
+        return ResponseFactory.success(analyticsService.getAnalyticsById(id), "Get analytics list successfully", HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<?> createAnalytics(@RequestBody AnalyticsRequestDTO request) {
         analyticsService.addAnalytics(request);

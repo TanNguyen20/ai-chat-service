@@ -14,8 +14,8 @@ public class Analytics {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "dasboard_id")
-    private String dasboardId;
+    @Column(name = "dashboard_id")
+    private String dashboardId;
 
     @Column(name = "dashboard_host")
     private String dashboardHost;

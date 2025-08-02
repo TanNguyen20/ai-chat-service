@@ -9,5 +9,5 @@ import java.util.Collection;
 import java.util.List;
 
 public interface AnalyticsRepository extends JpaRepository<Analytics, Long> {
-    List<Analytics> findAllByUsersContainingAndRolesIn(User user, Collection<Role> roles);
+    List<Analytics> findAllByUsersContainingOrRolesIn(User user, Collection<Role> roles);
 }

@@ -8,6 +8,8 @@ import java.util.List;
 public interface AnalyticsService {
     List<AnalyticsResponseDTO> getAnalyticsList();
 
+    AnalyticsResponseDTO getAnalyticsById(Long id);
+
     void addAnalytics(AnalyticsRequestDTO request);
 
     void deleteAnalytics(Long id);
