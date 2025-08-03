@@ -30,7 +30,7 @@ public class AnalyticsResponseDTO {
         return AnalyticsResponseDTO.builder()
                 .id(analytics.getId())
                 .dashboardId(analytics.getDashboardId())
-                .dashboardHost(analytics.getDashboardHost())
+                .dashboardHost(analytics.getAnalyticsConfig().getHostname())
                 .dashboardTitle(analytics.getDashboardTitle())
                 .roles(analytics.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                 .users(analytics.getUsers().stream().map(User::getUsername).toList())

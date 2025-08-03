@@ -4,8 +4,10 @@ import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
 import com.tannguyen.ai.dto.response.AnalyticsResponseDTO;
 import com.tannguyen.ai.exception.NotFoundException;
 import com.tannguyen.ai.model.Analytics;
+import com.tannguyen.ai.model.AnalyticsConfig;
 import com.tannguyen.ai.model.Role;
 import com.tannguyen.ai.model.User;
+import com.tannguyen.ai.repository.AnalyticsConfigRepository;
 import com.tannguyen.ai.repository.AnalyticsRepository;
 import com.tannguyen.ai.repository.RoleRepository;
 import com.tannguyen.ai.repository.UserRepository;
@@ -27,6 +29,8 @@ public class AnalyticsServiceImpl implements AnalyticsService {
 
     private final RoleRepository roleRepository;
 
+    private final AnalyticsConfigRepository analyticsConfigRepository;
+
     @Override
     public List<AnalyticsResponseDTO> getAnalyticsList() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -47,13 +51,15 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     public void addAnalytics(AnalyticsRequestDTO request) {
         List<User> users = userRepository.findAllByUsernameIn(request.getUsers());
         Set<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
+        AnalyticsConfig analyticsConfig = analyticsConfigRepository.findById(request.getAnalyticsConfigId())
+                .orElseThrow(() -> new NotFoundException("Analytics config not found"));
 
         Analytics analytics = new Analytics();
         analytics.setUsers(users);
         analytics.setDashboardId(request.getDashboardId());
-        analytics.setDashboardHost(request.getDashboardHost());
         analytics.setDashboardTitle(request.getDashboardTitle());
         analytics.setRoles(roles);
+        analytics.setAnalyticsConfig(analyticsConfig);
 
         analyticsRepository.save(analytics);
     }

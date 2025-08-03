@@ -17,9 +17,6 @@ public class Analytics {
     @Column(name = "dashboard_id")
     private String dashboardId;
 
-    @Column(name = "dashboard_host")
-    private String dashboardHost;
-
     @Column(name = "dashboard_title")
     private String dashboardTitle;
 
@@ -38,4 +35,8 @@ public class Analytics {
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
     private List<User> users;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "analytics_config_id", nullable = false)
+    private AnalyticsConfig analyticsConfig;
 }

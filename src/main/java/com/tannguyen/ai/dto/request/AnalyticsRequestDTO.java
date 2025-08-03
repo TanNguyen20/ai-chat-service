@@ -7,13 +7,13 @@ import java.util.List;
 
 @Data
 public class AnalyticsRequestDTO {
-    String dashboardId;
+    private String dashboardId;
 
-    String dashboardHost;
+    private String dashboardTitle;
 
-    String dashboardTitle;
+    private List<String> users;
 
-    List<String> users;
+    private List<RoleName> roles;
 
-    List<RoleName> roles;
+    private Long analyticsConfigId;
 }
