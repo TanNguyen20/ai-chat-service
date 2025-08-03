@@ -16,8 +16,4 @@ spring:
     show-sql: true
 
 superset:
-  host: http://localhost:8088
-  base-url: http://localhost:8088/api/v1
-  username: admin
-  password: admin
   provider: db
