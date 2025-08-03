@@ -26,6 +26,8 @@ public class AnalyticsResponseDTO {
 
     private List<String> users;
 
+    private Long analyticsConfigId;
+
     public static AnalyticsResponseDTO from(Analytics analytics) {
         return AnalyticsResponseDTO.builder()
                 .id(analytics.getId())
@@ -34,6 +36,7 @@ public class AnalyticsResponseDTO {
                 .dashboardTitle(analytics.getDashboardTitle())
                 .roles(analytics.getRoles().stream().map(Role::getName).collect(Collectors.toSet()))
                 .users(analytics.getUsers().stream().map(User::getUsername).toList())
+                .analyticsConfigId(analytics.getAnalyticsConfig().getId())
                 .build();
     }
 }

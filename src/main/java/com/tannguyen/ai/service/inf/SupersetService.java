@@ -1,7 +1,7 @@
 package com.tannguyen.ai.service.inf;
 
-import com.tannguyen.ai.dto.response.SupersetGuestToken;
+import com.tannguyen.ai.dto.response.SupersetGuestTokenResponseDTO;
 
 public interface SupersetService {
-    SupersetGuestToken getGuestToken();
+    SupersetGuestTokenResponseDTO getGuestToken(String dashboardId, Long analyticsConfigId);
 }

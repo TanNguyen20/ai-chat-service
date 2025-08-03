@@ -3,6 +3,6 @@ package com.tannguyen.ai.dto.response;
 import lombok.Data;
 
 @Data
-public class SupersetGuestToken {
+public class SupersetGuestTokenResponseDTO {
     private String token;
 }
