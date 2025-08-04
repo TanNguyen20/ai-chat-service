@@ -14,12 +14,13 @@ import static com.tannguyen.ai.constant.CommonConstant.API_V1;
 @RestController
 @RequestMapping(API_V1 + "/roles")
 @AllArgsConstructor
+@PreAuthorize("@authz.isAdmin(authentication)")
 public class RoleController {
 
     private final RoleService roleService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
     @GetMapping()
+    @PreAuthorize("@authz.isMinimalRole(authentication)")
     public ResponseEntity<?> getAllRoles() {
         return ResponseFactory.success(roleService.getAllRoles(), "Get all roles successfully", HttpStatus.OK);
     }

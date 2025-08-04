@@ -6,12 +6,14 @@ import com.tannguyen.ai.service.inf.AnalyticsConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.tannguyen.ai.constant.CommonConstant.API_V1;
 
 @RestController
 @AllArgsConstructor
+@PreAuthorize("@authz.isAdmin(authentication)")
 @RequestMapping(API_V1 + "/analytics-config")
 public class AnalyticsConfigController {
     private AnalyticsConfigService service;
@@ -23,11 +25,13 @@ public class AnalyticsConfigController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("@authz.isMinimalRole(authentication)")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseFactory.success(service.getById(id), "Get analytics config successfully", HttpStatus.OK);
     }
 
     @GetMapping
+    @PreAuthorize("@authz.isMinimalRole(authentication)")
     public ResponseEntity<?> getAll() {
         return ResponseFactory.success(service.getAll(), "Get all analytics config successfully", HttpStatus.OK);
     }

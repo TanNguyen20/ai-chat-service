@@ -8,4 +8,9 @@ public class CustomAuthorizationLogic {
     public boolean isMinimalRole(Authentication authentication) {
         return !authentication.getAuthorities().isEmpty();
     }
+
+    public boolean isAdmin(Authentication authentication) {
+        return authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_SUPER_ADMIN"));
+    }
 }

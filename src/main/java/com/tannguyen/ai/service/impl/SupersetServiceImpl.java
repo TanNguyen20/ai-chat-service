@@ -43,6 +43,7 @@ public class SupersetServiceImpl implements SupersetService {
         this.analyticsConfigRepository = analyticsConfigRepository;
     }
 
+    @Override
     public SupersetGuestTokenResponseDTO getGuestToken(String dashboardId, Long analyticsConfigId) {
         AnalyticsConfig analyticsConfig = analyticsConfigRepository.findById(analyticsConfigId)
                 .orElseThrow(() -> new NotFoundException("Not found analytics config"));
@@ -112,7 +113,7 @@ public class SupersetServiceImpl implements SupersetService {
         ResponseEntity<Map> loginResponse = restTemplate.exchange(hostname + "/api/v1/security/login", HttpMethod.POST, loginRequest, Map.class);
 
         String accessToken = (String) loginResponse.getBody().get("access_token");
-        if (token == null) {
+        if (accessToken == null) {
             throw new RuntimeException("Failed to obtain access token");
         }
         return accessToken;

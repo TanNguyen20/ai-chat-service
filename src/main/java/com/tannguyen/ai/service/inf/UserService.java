@@ -12,4 +12,6 @@ public interface UserService {
     List<UserResponseDTO> getAllUsers();
 
     void assignedRoleToUser(Long userId, List<RoleName> roleNames);
+
+    void deleteUser(Long userId);
 }

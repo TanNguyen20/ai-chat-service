@@ -32,9 +32,15 @@ public class UserController {
         return ResponseFactory.success(null, "Role assigned successfully", HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/me")
     public ResponseEntity<?> getMyInfo() {
         return ResponseFactory.success(userService.getCurrentUser(), "Get user info successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
+        return ResponseFactory.success(null, "Delete user successfully", HttpStatus.NO_CONTENT);
     }
 }
