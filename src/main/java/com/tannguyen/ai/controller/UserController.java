@@ -17,14 +17,14 @@ import static com.tannguyen.ai.constant.CommonConstant.API_V1;
 public class UserController {
     private final UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity<?> getAllUsers() {
         return ResponseFactory.success(userService.getAllUsers(), "Get all users successfully", HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PostMapping("/{userId}/roles")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     public ResponseEntity<?> assignRoleToUser(
             @PathVariable Long userId,
             @RequestBody RoleAssignmentRequestDTO request) {
