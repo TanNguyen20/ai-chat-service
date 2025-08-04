@@ -27,7 +27,7 @@ public class RoleController {
 
     @PostMapping("/create")
     public ResponseEntity<?> createRole(@RequestBody RoleRequestDTO roleRequestDTO) {
-        roleService.createRole(roleRequestDTO.getName());
+        roleService.createRole(roleRequestDTO.getName(), roleRequestDTO.getDescription());
         return ResponseFactory.success(null, "Create role successfully", HttpStatus.CREATED);
     }
 

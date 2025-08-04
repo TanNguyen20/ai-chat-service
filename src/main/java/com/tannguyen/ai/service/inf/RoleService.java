@@ -11,7 +11,7 @@ public interface RoleService {
 
     Role getRoleByName(RoleName roleName) throws NotFoundException;
 
-    void createRole(RoleName roleName);
+    void createRole(RoleName roleName, String description);
 
     void deleteRole(RoleName roleName);
 }

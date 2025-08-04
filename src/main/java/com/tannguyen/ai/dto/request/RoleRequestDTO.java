@@ -6,4 +6,6 @@ import lombok.Data;
 @Data
 public class RoleRequestDTO {
     private RoleName name;
+
+    private String description;
 }

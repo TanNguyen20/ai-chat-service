@@ -27,9 +27,10 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public void createRole(RoleName roleName) {
+    public void createRole(RoleName roleName, String description) {
         Role role = new Role();
         role.setName(roleName);
+        role.setDescription(description);
 
         roleRepository.save(role);
     }

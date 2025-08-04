@@ -1,5 +1,6 @@
 package com.tannguyen.ai.model;
 
+import com.tannguyen.ai.model.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -9,7 +10,7 @@ import java.util.Set;
 @Data
 @Entity
 @Table(name = "analytics")
-public class Analytics {
+public class Analytics extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,12 +1,13 @@
 package com.tannguyen.ai.model;
 
+import com.tannguyen.ai.model.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Data
 @Entity
 @Table(name = "analytics_config")
-public class AnalyticsConfig {
+public class AnalyticsConfig extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
