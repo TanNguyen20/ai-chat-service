@@ -31,7 +31,7 @@ public class RoleController {
         return ResponseFactory.success(null, "Create role successfully", HttpStatus.CREATED);
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteRole(@RequestBody RoleRequestDTO roleRequestDTO) {
         roleService.deleteRole(roleRequestDTO.getName());
         return ResponseFactory.success(null, "Delete role successfully", HttpStatus.NO_CONTENT);
