@@ -73,7 +73,11 @@ public class SupersetServiceImpl implements SupersetService {
         HttpEntity<Map<String, Object>> guestRequest = new HttpEntity<>(guestPayload, guestHeaders);
         ResponseEntity<Map> guestResponse = restTemplate.exchange(analyticsHostname + "/api/v1/security/guest_token/", HttpMethod.POST, guestRequest, Map.class);
 
-        String guestToken = (String) guestResponse.getBody().get("token");
+        Map<String, Object> responseBody = guestResponse.getBody();
+        if (responseBody == null || !responseBody.containsKey("token")) {
+            throw new RuntimeException("Invalid guest token response");
+        }
+        String guestToken = String.valueOf(responseBody.get("token"));
         SupersetGuestTokenResponseDTO supersetGuestTokenResponseDTO = new SupersetGuestTokenResponseDTO();
         supersetGuestTokenResponseDTO.setToken(guestToken);
         return supersetGuestTokenResponseDTO;
@@ -107,6 +111,10 @@ public class SupersetServiceImpl implements SupersetService {
         HttpEntity<Map<String, Object>> loginRequest = new HttpEntity<>(loginPayload, loginHeaders);
         ResponseEntity<Map> loginResponse = restTemplate.exchange(hostname + "/api/v1/security/login", HttpMethod.POST, loginRequest, Map.class);
 
-        return (String) loginResponse.getBody().get("access_token");
+        String accessToken = (String) loginResponse.getBody().get("access_token");
+        if (token == null) {
+            throw new RuntimeException("Failed to obtain access token");
+        }
+        return accessToken;
     }
 }
