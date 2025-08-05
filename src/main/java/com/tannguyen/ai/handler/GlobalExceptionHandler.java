@@ -8,6 +8,7 @@ import com.tannguyen.ai.exception.ResourceAlreadyExistsException;
 import com.tannguyen.ai.exception.UnauthorizedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -16,12 +17,12 @@ import org.springframework.web.context.request.WebRequest;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<?> handleNotFoundException(UnauthorizedException ex) {
+    public ResponseEntity<?> handleUnauthorizedException(UnauthorizedException ex) {
         return ResponseFactory.error(HttpStatus.UNAUTHORIZED, "Login is required for access this data", ex.getMessage());
     }
 
-    @ExceptionHandler(ForbiddenException.class)
-    public ResponseEntity<?> handleNotFoundException(ForbiddenException ex) {
+    @ExceptionHandler({ForbiddenException.class, AuthorizationDeniedException.class})
+    public ResponseEntity<?> handleForbiddenException(RuntimeException  ex) {
         return ResponseFactory.error(HttpStatus.FORBIDDEN, "You are not allow to access this data", ex.getMessage());
     }
 
