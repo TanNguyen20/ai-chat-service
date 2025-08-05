@@ -19,18 +19,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> handleNotFoundException(NotFoundException ex) {
-        return ResponseFactory.error(HttpStatus.NOT_FOUND, "Internal server error", ex.getMessage());
+        return ResponseFactory.error(HttpStatus.NOT_FOUND, "Data not found", ex.getMessage());
     }
 
     @ExceptionHandler(ResourceAlreadyExistsException.class)
     public ResponseEntity<?> handleResourceAlreadyExistsException(ResourceAlreadyExistsException ex) {
-        Map<String, Object> body = new HashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("status", HttpStatus.CONFLICT.value());
-        body.put("error", "Existed");
-        body.put("message", ex.getMessage());
-
-        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+        return ResponseFactory.error(HttpStatus.CONFLICT, "Resource already existed", ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
