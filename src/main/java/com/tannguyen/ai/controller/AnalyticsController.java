@@ -33,6 +33,12 @@ public class AnalyticsController {
         return ResponseFactory.success(null, "Create analytics successfully", HttpStatus.CREATED);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<?> updateAnalytics(@PathVariable Long id, @RequestBody AnalyticsRequestDTO request) {
+        analyticsService.updateAnalytics(id, request);
+        return ResponseFactory.success(null, "Update analytics successfully", HttpStatus.OK);
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteAnalytics(@PathVariable Long id) {
         analyticsService.deleteAnalytics(id);
