@@ -65,6 +65,29 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     }
 
     @Override
+    public void updateAnalytics(Long id, AnalyticsRequestDTO request) {
+        // Find the existing analytics record
+        Analytics analytics = analyticsRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Analytics not found"));
+    
+        // Fetch related entities
+        List<User> users = userRepository.findAllByUsernameIn(request.getUsers());
+        Set<Role> roles = roleRepository.findAllByNameIn(request.getRoles());
+        AnalyticsConfig analyticsConfig = analyticsConfigRepository.findById(request.getAnalyticsConfigId())
+                .orElseThrow(() -> new NotFoundException("Analytics config not found"));
+    
+        // Update fields
+        analytics.setUsers(users);
+        analytics.setDashboardId(request.getDashboardId());
+        analytics.setDashboardTitle(request.getDashboardTitle());
+        analytics.setRoles(roles);
+        analytics.setAnalyticsConfig(analyticsConfig);
+    
+        // Save updated entity
+        analyticsRepository.save(analytics);
+    }
+
+    @Override
     public void deleteAnalytics(Long id) {
         analyticsRepository.deleteById(id);
     }
