@@ -12,5 +12,7 @@ public interface AnalyticsService {
 
     void addAnalytics(AnalyticsRequestDTO request);
 
+    void updateAnalytics(Long id, AnalyticsRequestDTO request);
+
     void deleteAnalytics(Long id);
 }
