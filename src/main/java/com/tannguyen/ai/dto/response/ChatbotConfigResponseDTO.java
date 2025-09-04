@@ -1,6 +1,6 @@
 package com.tannguyen.ai.dto.response;
 
-import com.tannguyen.ai.model.ChatbotInfo;
+import com.tannguyen.ai.model.primary.ChatbotInfo;
 import lombok.Builder;
 import lombok.Data;
 

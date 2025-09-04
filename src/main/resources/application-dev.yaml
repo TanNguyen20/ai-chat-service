@@ -1,19 +1,27 @@
 spring:
   data:
     redis:
-      host: redis-18467.c334.asia-southeast2-1.gce.redns.redis-cloud.com
+      host: ${REDIS_HOST}
       port: 18467
       username: default
       password: ${REDIS_PASSWORD}
-  datasource:
-    url: jdbc:postgresql://ep-gentle-sun-a1yarxw3-pooler.ap-southeast-1.aws.neon.tech/ai-chat
-    username: neondb_owner
-    password: ${DB_PASSWORD}
-
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
 
 superset:
   provider: db
+
+datasources:
+  primary:
+    jdbc-url: ${PRIMARY_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${PRIMARY_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  secondary:
+    jdbc-url: ${SECONDARY_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${SECONDARY_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver

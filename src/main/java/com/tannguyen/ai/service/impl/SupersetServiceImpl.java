@@ -2,8 +2,8 @@ package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.dto.response.SupersetGuestTokenResponseDTO;
 import com.tannguyen.ai.exception.NotFoundException;
-import com.tannguyen.ai.model.AnalyticsConfig;
-import com.tannguyen.ai.repository.AnalyticsConfigRepository;
+import com.tannguyen.ai.model.primary.AnalyticsConfig;
+import com.tannguyen.ai.repository.primary.AnalyticsConfigRepository;
 import com.tannguyen.ai.service.inf.SupersetService;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.cookie.BasicCookieStore;

@@ -1,6 +1,6 @@
 package com.tannguyen.ai.dto.response;
 
-import com.tannguyen.ai.model.AnalyticsConfig;
+import com.tannguyen.ai.model.primary.AnalyticsConfig;
 import lombok.Builder;
 import lombok.Data;
 

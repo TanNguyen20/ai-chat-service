@@ -1,10 +1,10 @@
 package com.tannguyen.ai.initializer;
 
 import com.tannguyen.ai.enums.RoleName;
-import com.tannguyen.ai.model.Role;
-import com.tannguyen.ai.model.User;
-import com.tannguyen.ai.repository.RoleRepository;
-import com.tannguyen.ai.repository.UserRepository;
+import com.tannguyen.ai.model.primary.Role;
+import com.tannguyen.ai.model.primary.User;
+import com.tannguyen.ai.repository.primary.RoleRepository;
+import com.tannguyen.ai.repository.primary.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

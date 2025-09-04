@@ -6,16 +6,7 @@ spring:
     name: ai-chat-service
   profiles:
     active: dev
-  datasource:
-    driver-class-name: org.postgresql.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
-    properties:
-      hibernate:
-        connection:
-          url: ${spring.datasource.url}
-          username: ${spring.datasource.username}
-          password: ${spring.datasource.password}

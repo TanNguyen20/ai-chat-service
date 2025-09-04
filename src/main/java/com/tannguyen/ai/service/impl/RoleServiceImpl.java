@@ -2,8 +2,8 @@ package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
-import com.tannguyen.ai.model.Role;
-import com.tannguyen.ai.repository.RoleRepository;
+import com.tannguyen.ai.model.primary.Role;
+import com.tannguyen.ai.repository.primary.RoleRepository;
 import com.tannguyen.ai.service.inf.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;

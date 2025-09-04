@@ -2,7 +2,7 @@ package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
-import com.tannguyen.ai.model.Role;
+import com.tannguyen.ai.model.primary.Role;
 
 import java.util.List;
 

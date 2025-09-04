@@ -1,7 +1,7 @@
 package com.tannguyen.ai.dto.response;
 
-import com.tannguyen.ai.model.Role;
-import com.tannguyen.ai.model.User;
+import com.tannguyen.ai.model.primary.Role;
+import com.tannguyen.ai.model.primary.User;
 import lombok.Builder;
 import lombok.Data;
 

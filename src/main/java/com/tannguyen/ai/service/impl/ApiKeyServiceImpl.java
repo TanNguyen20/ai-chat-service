@@ -2,9 +2,9 @@ package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.dto.response.ChatbotConfigResponseDTO;
 import com.tannguyen.ai.exception.NotFoundException;
-import com.tannguyen.ai.model.ChatbotInfo;
-import com.tannguyen.ai.repository.ChatbotInfoRepository;
-import com.tannguyen.ai.repository.UserRepository;
+import com.tannguyen.ai.model.primary.ChatbotInfo;
+import com.tannguyen.ai.repository.primary.ChatbotInfoRepository;
+import com.tannguyen.ai.repository.primary.UserRepository;
 import com.tannguyen.ai.service.inf.ApiKeyService;
 import com.tannguyen.ai.util.AESUtil;
 import lombok.AllArgsConstructor;

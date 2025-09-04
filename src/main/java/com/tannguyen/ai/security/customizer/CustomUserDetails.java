@@ -1,7 +1,7 @@
 package com.tannguyen.ai.security.customizer;
 
-import com.tannguyen.ai.model.Role;
-import com.tannguyen.ai.model.User;
+import com.tannguyen.ai.model.primary.Role;
+import com.tannguyen.ai.model.primary.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
