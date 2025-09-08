@@ -32,6 +32,18 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
+    public Page<StudentResponseDTO> search(String query,
+                                           List<String> gioiTinh, List<String> coSo, List<String> bacDaoTao,
+                                           List<String> loaiHinhDaoTao, List<String> khoa, List<String> nganh,
+                                           Pageable pageable) {
+        var spec = Specification
+            .where(StudentSpecifications.freeText(query))
+            .and(StudentSpecifications.filter(gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh));
+    
+        return repository.findAll(spec, pageable).map(StudentMapper::toDto);
+    }
+
+    @Override
     public Page<StudentResponseDTO> searchByName(String name, List<String> gioiTinh, List<String> coSo, List<String> bacDaoTao,
                                                  List<String> loaiHinhDaoTao, List<String> khoa, List<String> nganh,
                                                  Pageable pageable) {
