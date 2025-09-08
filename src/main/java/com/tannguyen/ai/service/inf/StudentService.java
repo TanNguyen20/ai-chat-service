@@ -19,6 +19,17 @@ public interface StudentService {
             Pageable pageable
     );
 
+    Page<StudentResponseDTO> search(
+            String query,
+            List<String> gioiTinh,
+            List<String> coSo,
+            List<String> bacDaoTao,
+            List<String> loaiHinhDaoTao,
+            List<String> khoa,
+            List<String> nganh,
+            Pageable pageable
+    );
+
     Page<StudentResponseDTO> searchByName(
             String name,
             List<String> gioiTinh,
