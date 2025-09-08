@@ -36,9 +36,26 @@ public class StudentController {
         return ResponseFactory.success(page, "Get students successfully", HttpStatus.OK);
     }
 
-    // Search by name + filters
     @GetMapping("/search")
     public ResponseEntity<?> search(
+            @RequestParam(name = "q", required = false) String q,
+            @RequestParam(name = "name", required = false) String legacyName,
+            @RequestParam(required = false) List<String> gioiTinh,
+            @RequestParam(required = false) List<String> coSo,
+            @RequestParam(required = false) List<String> bacDaoTao,
+            @RequestParam(required = false) List<String> loaiHinhDaoTao,
+            @RequestParam(required = false) List<String> khoa,
+            @RequestParam(required = false) List<String> nganh,
+            @PageableDefault Pageable pageable
+    ) {
+        String query = (q != null && !q.isBlank()) ? q : legacyName;
+        var page = studentService.search(query, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
+        return ResponseFactory.success(page, "Search students successfully", HttpStatus.OK);
+    }
+
+    // Search by name + filters
+    @GetMapping("/search-by-name")
+    public ResponseEntity<?> searchByName(
             @RequestParam String name,
             @RequestParam(required = false) List<String> gioiTinh,
             @RequestParam(required = false) List<String> coSo,
