@@ -2,40 +2,36 @@ package com.tannguyen.ai.mapper;
 
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
-import com.tannguyen.ai.model.secondary.Student;
+import com.tannguyen.ai.model.secondary.StudentBase;
+import com.tannguyen.ai.model.secondary.StudentDNC;
+import com.tannguyen.ai.model.secondary.StudentUSH;
+
+import java.util.function.Supplier;
 
 public class StudentMapper {
-    public static Student toEntity(StudentRequestDTO dto) {
+
+    public static StudentDNC toEntityDNC(StudentRequestDTO dto) {
         if (dto == null) return null;
-        Student s = new Student();
-        s.setMssv(dto.getMssv());
-        s.setHoTen(dto.getHoTen());
-        s.setGioiTinh(dto.getGioiTinh());
-        s.setNgayVaoTruong(dto.getNgayVaoTruong());
-        s.setLopHoc(dto.getLopHoc());
-        s.setCoSo(dto.getCoSo());
-        s.setBacDaoTao(dto.getBacDaoTao());
-        s.setLoaiHinhDaoTao(dto.getLoaiHinhDaoTao());
-        s.setKhoa(dto.getKhoa());
-        s.setNganh(dto.getNganh());
-        s.setChuyenNganh(dto.getChuyenNganh());
-        s.setKhoaHoc(dto.getKhoaHoc());
-        s.setNoiCap(dto.getNoiCap());
-        s.setNgaySinh(dto.getNgaySinh());
-        s.setSoCmnd(dto.getSoCmnd());
-        s.setDoiTuong(dto.getDoiTuong());
-        s.setNgayVaoDoan(dto.getNgayVaoDoan());
-        s.setDienThoai(dto.getDienThoai());
-        s.setDiaChiLienHe(dto.getDiaChiLienHe());
-        s.setNoiSinh(dto.getNoiSinh());
-        s.setHoKhauThuongTru(dto.getHoKhauThuongTru());
-        s.setEmailDnc(dto.getEmailDnc());
-        s.setMatKhauEmailDnc(dto.getMatKhauEmailDnc());
-        s.setMaHoSo(dto.getMaHoSo());
+        StudentDNC s = new StudentDNC();
+        fillCommon(dto, s);
         return s;
     }
 
-    public static StudentResponseDTO toDto(Student s) {
+    public static StudentUSH toEntityUSH(StudentRequestDTO dto) {
+        if (dto == null) return null;
+        StudentUSH s = new StudentUSH();
+        fillCommon(dto, s);
+        return s;
+    }
+
+     public static <T extends StudentBase> T toEntity(StudentRequestDTO dto, Supplier<T> ctor) {
+         if (dto == null) return null;
+         T s = ctor.get();
+         fillCommon(dto, s);
+         return s;
+     }
+
+    public static StudentResponseDTO toDto(StudentBase s) {
         if (s == null) return null;
         StudentResponseDTO dto = new StudentResponseDTO();
         dto.setMssv(s.getMssv());
@@ -65,7 +61,8 @@ public class StudentMapper {
         return dto;
     }
 
-    public static void merge(StudentRequestDTO src, Student dst) {
+    public static void merge(StudentRequestDTO src, StudentBase dst) {
+        if (src == null || dst == null) return;
         if (src.getHoTen() != null) dst.setHoTen(src.getHoTen());
         if (src.getGioiTinh() != null) dst.setGioiTinh(src.getGioiTinh());
         if (src.getNgayVaoTruong() != null) dst.setNgayVaoTruong(src.getNgayVaoTruong());
@@ -89,5 +86,34 @@ public class StudentMapper {
         if (src.getEmailDnc() != null) dst.setEmailDnc(src.getEmailDnc());
         if (src.getMatKhauEmailDnc() != null) dst.setMatKhauEmailDnc(src.getMatKhauEmailDnc());
         if (src.getMaHoSo() != null) dst.setMaHoSo(src.getMaHoSo());
+    }
+
+    // --- Internal helper to set shared fields -------------------------------
+
+    private static void fillCommon(StudentRequestDTO dto, StudentBase s) {
+        s.setMssv(dto.getMssv());
+        s.setHoTen(dto.getHoTen());
+        s.setGioiTinh(dto.getGioiTinh());
+        s.setNgayVaoTruong(dto.getNgayVaoTruong());
+        s.setLopHoc(dto.getLopHoc());
+        s.setCoSo(dto.getCoSo());
+        s.setBacDaoTao(dto.getBacDaoTao());
+        s.setLoaiHinhDaoTao(dto.getLoaiHinhDaoTao());
+        s.setKhoa(dto.getKhoa());
+        s.setNganh(dto.getNganh());
+        s.setChuyenNganh(dto.getChuyenNganh());
+        s.setKhoaHoc(dto.getKhoaHoc());
+        s.setNoiCap(dto.getNoiCap());
+        s.setNgaySinh(dto.getNgaySinh());
+        s.setSoCmnd(dto.getSoCmnd());
+        s.setDoiTuong(dto.getDoiTuong());
+        s.setNgayVaoDoan(dto.getNgayVaoDoan());
+        s.setDienThoai(dto.getDienThoai());
+        s.setDiaChiLienHe(dto.getDiaChiLienHe());
+        s.setNoiSinh(dto.getNoiSinh());
+        s.setHoKhauThuongTru(dto.getHoKhauThuongTru());
+        s.setEmailDnc(dto.getEmailDnc());
+        s.setMatKhauEmailDnc(dto.getMatKhauEmailDnc());
+        s.setMaHoSo(dto.getMaHoSo());
     }
 }

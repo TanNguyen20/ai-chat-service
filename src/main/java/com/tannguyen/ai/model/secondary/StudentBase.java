@@ -1,19 +1,13 @@
 package com.tannguyen.ai.model.secondary;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
-@Entity
-@Table(name = "student")
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class Student {
+@MappedSuperclass
+public abstract class StudentBase {
     @Id
     @Column(name = "mssv", length = 50, nullable = false)
     private String mssv;

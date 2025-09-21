@@ -2,6 +2,7 @@ package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
+import com.tannguyen.ai.enums.StudentType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface StudentService {
+
     Page<StudentResponseDTO> list(
+            StudentType studentType,
             List<String> gioiTinh,
             List<String> coSo,
             List<String> bacDaoTao,
@@ -20,6 +23,7 @@ public interface StudentService {
     );
 
     Page<StudentResponseDTO> search(
+            StudentType studentType,
             String query,
             List<String> gioiTinh,
             List<String> coSo,
@@ -31,6 +35,7 @@ public interface StudentService {
     );
 
     Page<StudentResponseDTO> searchByName(
+            StudentType studentType,
             String name,
             List<String> gioiTinh,
             List<String> coSo,
@@ -41,13 +46,13 @@ public interface StudentService {
             Pageable pageable
     );
 
-    StudentResponseDTO getById(String mssv);
+    StudentResponseDTO getById(StudentType studentType, String mssv);
 
-    void create(StudentRequestDTO request);
+    void create(StudentType studentType, StudentRequestDTO request);
 
-    void update(String mssv, StudentRequestDTO request);
+    void update(StudentType studentType, String mssv, StudentRequestDTO request);
 
-    void delete(String mssv);
+    void delete(StudentType studentType, String mssv);
 
-    Map<String, List<String>> facets();
+    Map<String, List<String>> facets(StudentType studentType);
 }

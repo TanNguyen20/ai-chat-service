@@ -1,6 +1,6 @@
 package com.tannguyen.ai.spec;
 
-import com.tannguyen.ai.model.secondary.Student;
+import com.tannguyen.ai.model.secondary.StudentBase;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -8,18 +8,18 @@ import java.util.List;
 
 public class StudentSpecifications {
 
-    public static Specification<Student> nameContainsIgnoreCase(String name) {
+    public static <T extends StudentBase> Specification<T> nameContainsIgnoreCase(String name) {
         if (name == null || name.isBlank()) return null;
         final String like = "%" + name.toLowerCase() + "%";
         return (root, q, cb) -> cb.like(cb.lower(root.get("hoTen")), like);
     }
 
-    private static Specification<Student> inIfPresent(String field, List<String> values) {
+    private static <T extends StudentBase> Specification<T> inIfPresent(String field, List<String> values) {
         if (values == null || values.isEmpty()) return null;
         return (root, q, cb) -> root.get(field).in(values);
     }
 
-    public static Specification<Student> filter(
+    public static <T extends StudentBase> Specification<T> filter(
             List<String> gioiTinh,
             List<String> coSo,
             List<String> bacDaoTao,
@@ -27,20 +27,19 @@ public class StudentSpecifications {
             List<String> khoa,
             List<String> nganh
     ) {
-        return Specification
-                .where(inIfPresent("gioiTinh", gioiTinh))
-                .and(inIfPresent("coSo", coSo))
-                .and(inIfPresent("bacDaoTao", bacDaoTao))
-                .and(inIfPresent("loaiHinhDaoTao", loaiHinhDaoTao))
-                .and(inIfPresent("khoa", khoa))
-                .and(inIfPresent("nganh", nganh));
+        return Specification.<T>where(StudentSpecifications.<T>inIfPresent("gioiTinh", gioiTinh))
+                .and(StudentSpecifications.<T>inIfPresent("coSo", coSo))
+                .and(StudentSpecifications.<T>inIfPresent("bacDaoTao", bacDaoTao))
+                .and(StudentSpecifications.<T>inIfPresent("loaiHinhDaoTao", loaiHinhDaoTao))
+                .and(StudentSpecifications.<T>inIfPresent("khoa", khoa))
+                .and(StudentSpecifications.<T>inIfPresent("nganh", nganh));
     }
 
-    public static Specification<Student> freeText(String query) {
+    public static <T extends StudentBase> Specification<T> freeText(String query) {
         if (query == null || query.isBlank()) return null;
         final String[] tokens = query.trim().toLowerCase().split("\\s+");
+
         return (root, q, cb) -> {
-            // target fields: hoTen, diaChiLienHe, hoKhauThuongTru, noiSinh
             var hoTen   = cb.lower(root.get("hoTen"));
             var lienHe  = cb.lower(root.get("diaChiLienHe"));
             var hoKhau  = cb.lower(root.get("hoKhauThuongTru"));
