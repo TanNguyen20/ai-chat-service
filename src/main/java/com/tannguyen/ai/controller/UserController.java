@@ -1,6 +1,7 @@
 package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.RoleAssignmentRequestDTO;
+import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
@@ -42,5 +43,12 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseFactory.success(null, "Delete user successfully", HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<?> enableUser(@PathVariable Long id, @RequestBody UserInfoRequestDTO userInfoRequestDTO) {
+        userService.resetUserInfo(id, userInfoRequestDTO);
+        return ResponseFactory.success(null, "Update user successfully", HttpStatus.NO_CONTENT);
     }
 }

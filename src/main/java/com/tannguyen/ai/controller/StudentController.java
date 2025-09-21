@@ -2,6 +2,7 @@ package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
+import com.tannguyen.ai.enums.StudentType;
 import com.tannguyen.ai.service.inf.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -21,9 +22,9 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    // List with optional filters
     @GetMapping
     public ResponseEntity<?> list(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
             @RequestParam(required = false) List<String> gioiTinh,
             @RequestParam(required = false) List<String> coSo,
             @RequestParam(required = false) List<String> bacDaoTao,
@@ -32,12 +33,13 @@ public class StudentController {
             @RequestParam(required = false) List<String> nganh,
             @PageableDefault Pageable pageable
     ) {
-        var page = studentService.list(gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
+        var page = studentService.list(studentType, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
         return ResponseFactory.success(page, "Get students successfully", HttpStatus.OK);
     }
 
     @GetMapping("/search")
     public ResponseEntity<?> search(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
             @RequestParam(name = "q", required = false) String q,
             @RequestParam(name = "name", required = false) String legacyName,
             @RequestParam(required = false) List<String> gioiTinh,
@@ -49,13 +51,14 @@ public class StudentController {
             @PageableDefault Pageable pageable
     ) {
         String query = (q != null && !q.isBlank()) ? q : legacyName;
-        var page = studentService.search(query, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
+        var page = studentService.search(studentType, query, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
         return ResponseFactory.success(page, "Search students successfully", HttpStatus.OK);
     }
 
     // Search by name + filters
     @GetMapping("/search-by-name")
     public ResponseEntity<?> searchByName(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
             @RequestParam String name,
             @RequestParam(required = false) List<String> gioiTinh,
             @RequestParam(required = false) List<String> coSo,
@@ -65,35 +68,50 @@ public class StudentController {
             @RequestParam(required = false) List<String> nganh,
             @PageableDefault Pageable pageable
     ) {
-        var page = studentService.searchByName(name, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
+        var page = studentService.searchByName(studentType, name, gioiTinh, coSo, bacDaoTao, loaiHinhDaoTao, khoa, nganh, pageable);
         return ResponseFactory.success(page, "Search students successfully", HttpStatus.OK);
     }
 
     @GetMapping("/{mssv}")
-    public ResponseEntity<?> get(@PathVariable String mssv) {
-        return ResponseFactory.success(studentService.getById(mssv), "Get student successfully", HttpStatus.OK);
+    public ResponseEntity<?> get(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
+            @PathVariable String mssv
+    ) {
+        return ResponseFactory.success(studentService.getById(studentType, mssv), "Get student successfully", HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody StudentRequestDTO request) {
-        studentService.create(request);
+    public ResponseEntity<?> create(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
+            @RequestBody StudentRequestDTO request
+    ) {
+        studentService.create(studentType, request);
         return ResponseFactory.success(null, "Create student successfully", HttpStatus.CREATED);
     }
 
     @PutMapping("/{mssv}")
-    public ResponseEntity<?> update(@PathVariable String mssv, @RequestBody StudentRequestDTO request) {
-        studentService.update(mssv, request);
+    public ResponseEntity<?> update(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
+            @PathVariable String mssv,
+            @RequestBody StudentRequestDTO request
+    ) {
+        studentService.update(studentType, mssv, request);
         return ResponseFactory.success(null, "Update student successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{mssv}")
-    public ResponseEntity<?> delete(@PathVariable String mssv) {
-        studentService.delete(mssv);
+    public ResponseEntity<?> delete(
+            @RequestParam(defaultValue = "DNC") StudentType studentType,
+            @PathVariable String mssv
+    ) {
+        studentService.delete(studentType, mssv);
         return ResponseFactory.success(null, "Delete student successfully", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/facets")
-    public ResponseEntity<?> facets() {
-        return ResponseFactory.success(studentService.facets(), "Get facets successfully", HttpStatus.OK);
+    public ResponseEntity<?> facets(
+            @RequestParam(defaultValue = "DNC") StudentType studentType
+    ) {
+        return ResponseFactory.success(studentService.facets(studentType), "Get facets successfully", HttpStatus.OK);
     }
 }

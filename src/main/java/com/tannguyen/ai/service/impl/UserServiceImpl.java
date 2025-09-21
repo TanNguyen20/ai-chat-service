@@ -1,5 +1,6 @@
 package com.tannguyen.ai.service.impl;
 
+import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
 import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
@@ -11,6 +12,7 @@ import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -51,5 +53,25 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new NotFoundException("User not found"));
         userRepository.delete(user);
+    }
+
+    @Override
+    @Transactional
+    public void resetUserInfo(Long userId, UserInfoRequestDTO userInfoRequestDTO) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        if(userInfoRequestDTO.getIsEnabled() != null) {
+            user.setEnabled(userInfoRequestDTO.getIsEnabled());
+        }
+        if(userInfoRequestDTO.getIsAccountNonLocked() != null) {
+            user.setAccountNonLocked(userInfoRequestDTO.getIsAccountNonLocked());
+        }
+        if(userInfoRequestDTO.getIsAccountNonExpired() != null) {
+            user.setAccountNonExpired(userInfoRequestDTO.getIsAccountNonExpired());
+        }
+        if(userInfoRequestDTO.getIsCredentialsNonExpired() != null ) {
+            user.setCredentialsNonExpired(userInfoRequestDTO.getIsCredentialsNonExpired());
+        }
+        userRepository.save(user);
     }
 }
