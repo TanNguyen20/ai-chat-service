@@ -20,15 +20,15 @@
       "google.gemini-cli-vscode-ide-companion"
     ];
 
-    # ⬇️ Escape VS Code variables so Nix won't try to interpolate them
+    # Use concrete paths (no ${...} editor vars)
     settings = {
-      "java.jdt.ls.java.home" = "\\${env:JAVA_HOME}";
+      "java.jdt.ls.java.home" = "${pkgs.jdk17}/lib/openjdk";
       "java.configuration.runtimes" = [
-        { name = "JavaSE-17"; path = "\\${env:JAVA_HOME}"; default = true; }
+        { name = "JavaSE-17"; path = "${pkgs.jdk17}/lib/openjdk"; default = true; }
       ];
-      "gradle.java.home" = "\\${env:JAVA_HOME}";
-      "java.import.gradle.java.home" = "\\${env:JAVA_HOME}";
-      "gradle.user.home" = "\\${workspaceFolder}/.gradle-user";
+      "gradle.java.home" = "${pkgs.jdk17}/lib/openjdk";
+      "java.import.gradle.java.home" = "${pkgs.jdk17}/lib/openjdk";
+      "gradle.user.home" = ".gradle-user";
       "gradle.logging.level" = "lifecycle";
     };
 
