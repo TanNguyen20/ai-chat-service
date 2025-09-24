@@ -9,7 +9,6 @@
   ];
 
   env = {
-    # Global, simple env; no JVM flags here.
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
     SPRING_PROFILES_ACTIVE = "dev";
   };
@@ -21,18 +20,15 @@
       "google.gemini-cli-vscode-ide-companion"
     ];
 
-    # Tell the Java & Gradle extensions to use JDK 17 and a project-local Gradle home.
+    # ⬇️ Escape VS Code variables so Nix won't try to interpolate them
     settings = {
-      # Java LS / JDT
-      "java.jdt.ls.java.home" = "${env:JAVA_HOME}";
+      "java.jdt.ls.java.home" = "\\${env:JAVA_HOME}";
       "java.configuration.runtimes" = [
-        { name = "JavaSE-17"; path = "${env:JAVA_HOME}"; default = true; }
+        { name = "JavaSE-17"; path = "\\${env:JAVA_HOME}"; default = true; }
       ];
-      # Gradle (Java extension & Gradle extension)
-      "gradle.java.home" = "${env:JAVA_HOME}";
-      "java.import.gradle.java.home" = "${env:JAVA_HOME}";
-      "gradle.user.home" = "${workspaceFolder}/.gradle-user";
-      # Optional: quiet the Gradle server logs
+      "gradle.java.home" = "\\${env:JAVA_HOME}";
+      "java.import.gradle.java.home" = "\\${env:JAVA_HOME}";
+      "gradle.user.home" = "\\${workspaceFolder}/.gradle-user";
       "gradle.logging.level" = "lifecycle";
     };
 
@@ -43,7 +39,6 @@
           chmod +x ./gradlew 2>/dev/null || true
           chmod +x ./mvnw  2>/dev/null || true
           mkdir -p .gradle-user .gradle-tmp
-          # Don't build here—just make sure wrapper responds.
           (GRADLE_USER_HOME="$PWD/.gradle-user" ./gradlew --version || true)
         '';
       };
@@ -66,9 +61,7 @@
               mkdir -p .gradle-user .gradle-tmp
               chmod +x ./gradlew 2>/dev/null || true
               export GRADLE_USER_HOME="$PWD/.gradle-user"
-              # Keep any global flags from interfering
               export GRADLE_OPTS="" MAVEN_OPTS="" _JAVA_OPTIONS="" JAVA_TOOL_OPTIONS=""
-              # Point toolchain discovery straight at JDK 17
               exec ./gradlew \
                 --no-daemon \
                 --no-configuration-cache \
@@ -80,7 +73,6 @@
           env = { SPRING_PROFILES_ACTIVE = "dev"; };
         };
 
-        # Optional Maven fallback (also clean)
         spring-maven = {
           manager = "gradle";
           cwd = "";
