@@ -5,12 +5,13 @@
     pkgs.jdk17
     pkgs.gradle
     pkgs.maven
+    pkgs.coreutils
   ];
 
-  # Keep global env clean (no JAVA_TOOL_OPTIONS here).
   env = {
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
     SPRING_PROFILES_ACTIVE = "dev";
+    # Do NOT set JAVA_TOOL_OPTIONS globally.
   };
 
   idx = {
@@ -21,18 +22,33 @@
 
     workspace = {
       onCreate = {
-        # Try to set execute bits; fall back to running via bash if still not executable.
         install = ''
-          (chmod +x ./gradlew 2>/dev/null || true)
+          set -euo pipefail
+          mkdir -p .gradle-user .gradle-tmp
+          chmod +x ./gradlew 2>/dev/null || true
+
+          export GRADLE_USER_HOME="$PWD/.gradle-user"
+          export _JAVA_OPTIONS=""
+          export JAVA_TOOL_OPTIONS=""
+          export MAVEN_OPTS=""
+          export GRADLE_OPTS=""
+
           if [ -x ./gradlew ]; then
-            ./gradlew build --no-daemon
+            ./gradlew \
+              --no-daemon \
+              --no-configuration-cache \
+              -Djava.io.tmpdir="$PWD/.gradle-tmp" \
+              build
           else
-            bash ./gradlew build --no-daemon
+            bash ./gradlew \
+              --no-daemon \
+              --no-configuration-cache \
+              -Djava.io.tmpdir="$PWD/.gradle-tmp" \
+              build
           fi
         '';
       };
       onStart = {
-        # Short, non-daemon checks only (don't run your server here)
         verify-java = "java -version";
         default.openFiles = [ "src/main/AiChatServiceApplication.java" ];
       };
@@ -42,26 +58,52 @@
       enable = true;
 
       previews = {
-        # Gradle Spring Boot
         spring-gradle = {
           manager = "gradle";
           cwd = "";
-          command = [ "./gradlew" "bootRun" "--no-daemon" ];
-          # Safe to apply GC flags ONLY to your app:
+          # wrap in a login shell to use $PWD reliably
+          command = [
+            "bash" "-lc"
+            ''
+              set -euo pipefail
+              mkdir -p .gradle-user .gradle-tmp
+              chmod +x ./gradlew 2>/dev/null || true
+              export GRADLE_USER_HOME="$PWD/.gradle-user"
+              export _JAVA_OPTIONS=""
+              export JAVA_TOOL_OPTIONS=""
+              export MAVEN_OPTS=""
+              export GRADLE_OPTS=""
+              exec ./gradlew \
+                --no-daemon \
+                --no-configuration-cache \
+                -Djava.io.tmpdir="$PWD/.gradle-tmp" \
+                bootRun
+            ''
+          ];
           env = {
             SPRING_PROFILES_ACTIVE = "dev";
-            JAVA_TOOL_OPTIONS = "-XX:+UseZGC -XX:+UseStringDeduplication";
           };
         };
 
-        # Optional Maven preview
+        # Optional Maven preview (isolated too)
         spring-maven = {
           manager = "gradle";
           cwd = "";
-          command = [ "./mvnw" "-DskipTests" "spring-boot:run" ];
+          command = [
+            "bash" "-lc"
+            ''
+              set -euo pipefail
+              mkdir -p .maven-user .maven-tmp
+              chmod +x ./mvnw 2>/dev/null || true
+              export MAVEN_OPTS=""
+              export _JAVA_OPTIONS=""
+              export JAVA_TOOL_OPTIONS=""
+              export MAVEN_USER_HOME="$PWD/.maven-user"
+              exec ./mvnw -DskipTests spring-boot:run
+            ''
+          ];
           env = {
             SPRING_PROFILES_ACTIVE = "dev";
-            JAVA_TOOL_OPTIONS = "-XX:+UseZGC -XX:+UseStringDeduplication";
           };
         };
       };
