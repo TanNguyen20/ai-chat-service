@@ -17,6 +17,7 @@
   idx = {
     extensions = [
       "vscjava.vscode-java-pack"
+      "vmware.vscode-boot-dev-pack"
       "google.gemini-cli-vscode-ide-companion"
     ];
 
