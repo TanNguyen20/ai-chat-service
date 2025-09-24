@@ -8,11 +8,9 @@
     pkgs.coreutils
   ];
 
-  # Kept simple; applies to shells AND previews per the schema
   env = {
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
     SPRING_PROFILES_ACTIVE = "dev";
-    # Keep Gradle state local to the repo (helps avoid daemon/protocol clashes)
     GRADLE_USER_HOME = ".gradle-user";
   };
 
@@ -25,7 +23,6 @@
 
     workspace = {
       onCreate = {
-        # Fast + safe init; don't run a full build here
         prepare = ''
           set -e
           chmod +x ./gradlew 2>/dev/null || true
@@ -44,7 +41,6 @@
       enable = true;
 
       previews = {
-        # Gradle Spring Boot
         spring-gradle = {
           manager = "gradle";
           cwd = "";
@@ -54,8 +50,8 @@
               set -euo pipefail
               mkdir -p .gradle-user .gradle-tmp
               chmod +x ./gradlew 2>/dev/null || true
-              # Reassert in case preview runs without inherited env
-              export GRADLE_USER_HOME="${GRADLE_USER_HOME:-$PWD/.gradle-user}"
+              # ensure project-local Gradle home without using ${…}
+              if [ -z "$GRADLE_USER_HOME" ]; then export GRADLE_USER_HOME="$PWD/.gradle-user"; fi
               export GRADLE_OPTS="" MAVEN_OPTS="" _JAVA_OPTIONS="" JAVA_TOOL_OPTIONS=""
               exec ./gradlew \
                 --no-daemon \
@@ -68,7 +64,6 @@
           env = { SPRING_PROFILES_ACTIVE = "dev"; };
         };
 
-        # Optional Maven fallback
         spring-maven = {
           manager = "gradle";
           cwd = "";
