@@ -27,19 +27,15 @@ import static com.tannguyen.ai.constant.CommonConstant.API_V1;
 @AllArgsConstructor
 public class AuthController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtUtil;
+
     private AuthService authService;
     private TokenBlacklistService tokenBlacklistService;
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequestDTO request) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-        );
-        UserDetails user = (UserDetails) authentication.getPrincipal();
-        String token = jwtUtil.generateToken(user);
-        return ResponseFactory.success(new AuthResponseDTO(token), "Login successfully", HttpStatus.OK);
+        AuthResponseDTO response = authService.login(request);
+
+        return ResponseFactory.success(response, "Login successfully", HttpStatus.OK);
     }
 
     @PostMapping("/register")
