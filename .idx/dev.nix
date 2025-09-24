@@ -8,10 +8,10 @@
     pkgs.coreutils
   ];
 
+  # keep globals minimal – no JAVA_TOOL_OPTIONS here
   env = {
     JAVA_HOME = "${pkgs.jdk17}/lib/openjdk";
     SPRING_PROFILES_ACTIVE = "dev";
-    # Do NOT set JAVA_TOOL_OPTIONS globally.
   };
 
   idx = {
@@ -21,31 +21,15 @@
     ];
 
     workspace = {
+      # Make onCreate *fast* and failure-proof
       onCreate = {
-        install = ''
-          set -euo pipefail
-          mkdir -p .gradle-user .gradle-tmp
+        prepare = ''
+          set -e
           chmod +x ./gradlew 2>/dev/null || true
-
-          export GRADLE_USER_HOME="$PWD/.gradle-user"
-          export _JAVA_OPTIONS=""
-          export JAVA_TOOL_OPTIONS=""
-          export MAVEN_OPTS=""
-          export GRADLE_OPTS=""
-
-          if [ -x ./gradlew ]; then
-            ./gradlew \
-              --no-daemon \
-              --no-configuration-cache \
-              -Djava.io.tmpdir="$PWD/.gradle-tmp" \
-              build
-          else
-            bash ./gradlew \
-              --no-daemon \
-              --no-configuration-cache \
-              -Djava.io.tmpdir="$PWD/.gradle-tmp" \
-              build
-          fi
+          chmod +x ./mvnw  2>/dev/null || true
+          mkdir -p .gradle-user .gradle-tmp
+          # Do NOT run a build here; just verify the wrapper prints a version.
+          (GRADLE_USER_HOME="$PWD/.gradle-user" ./gradlew --version || true)
         '';
       };
       onStart = {
@@ -56,12 +40,10 @@
 
     previews = {
       enable = true;
-
       previews = {
         spring-gradle = {
           manager = "gradle";
           cwd = "";
-          # wrap in a login shell to use $PWD reliably
           command = [
             "bash" "-lc"
             ''
@@ -69,10 +51,11 @@
               mkdir -p .gradle-user .gradle-tmp
               chmod +x ./gradlew 2>/dev/null || true
               export GRADLE_USER_HOME="$PWD/.gradle-user"
+              export GRADLE_OPTS=""
+              export MAVEN_OPTS=""
               export _JAVA_OPTIONS=""
               export JAVA_TOOL_OPTIONS=""
-              export MAVEN_OPTS=""
-              export GRADLE_OPTS=""
+              # harden the run (no reused state / wire-protocol clashes)
               exec ./gradlew \
                 --no-daemon \
                 --no-configuration-cache \
@@ -80,12 +63,10 @@
                 bootRun
             ''
           ];
-          env = {
-            SPRING_PROFILES_ACTIVE = "dev";
-          };
+          env = { SPRING_PROFILES_ACTIVE = "dev"; };
         };
 
-        # Optional Maven preview (isolated too)
+        # optional Maven fallback
         spring-maven = {
           manager = "gradle";
           cwd = "";
@@ -93,18 +74,14 @@
             "bash" "-lc"
             ''
               set -euo pipefail
-              mkdir -p .maven-user .maven-tmp
               chmod +x ./mvnw 2>/dev/null || true
               export MAVEN_OPTS=""
               export _JAVA_OPTIONS=""
               export JAVA_TOOL_OPTIONS=""
-              export MAVEN_USER_HOME="$PWD/.maven-user"
               exec ./mvnw -DskipTests spring-boot:run
             ''
           ];
-          env = {
-            SPRING_PROFILES_ACTIVE = "dev";
-          };
+          env = { SPRING_PROFILES_ACTIVE = "dev"; };
         };
       };
     };
