@@ -21,7 +21,15 @@
 
     workspace = {
       onCreate = {
-        install = "./gradlew build --no-daemon";
+        # Try to set execute bits; fall back to running via bash if still not executable.
+        install = ''
+          (chmod +x ./gradlew 2>/dev/null || true)
+          if [ -x ./gradlew ]; then
+            ./gradlew build --no-daemon
+          else
+            bash ./gradlew build --no-daemon
+          fi
+        '';
       };
       onStart = {
         # Short, non-daemon checks only (don't run your server here)
