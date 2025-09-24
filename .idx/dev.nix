@@ -50,7 +50,6 @@
               set -euo pipefail
               mkdir -p .gradle-user .gradle-tmp
               chmod +x ./gradlew 2>/dev/null || true
-              # ensure project-local Gradle home without using ${…}
               if [ -z "$GRADLE_USER_HOME" ]; then export GRADLE_USER_HOME="$PWD/.gradle-user"; fi
               export GRADLE_OPTS="" MAVEN_OPTS="" _JAVA_OPTIONS="" JAVA_TOOL_OPTIONS=""
               exec ./gradlew \
