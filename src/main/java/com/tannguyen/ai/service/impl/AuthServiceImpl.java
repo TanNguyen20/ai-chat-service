@@ -37,7 +37,6 @@ public class AuthServiceImpl implements AuthService {
     private final LoginAttemptService loginAttemptService;
 
     @Override
-    @Transactional
     public AuthResponseDTO login(AuthRequestDTO request) {
         final String username = request.getUsername();
 
