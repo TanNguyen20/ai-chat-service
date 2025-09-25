@@ -30,7 +30,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     }
 
     /** Called when a login attempt fails (BadCredentials). */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onAuthFailure(String username) {
         String attemptsKey = attemptsKey(username);
         Long attempts = redis.opsForValue().increment(attemptsKey); // atomic
@@ -50,7 +50,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
     }
 
     /** Called when a login attempt succeeds. Resets counters. */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void onAuthSuccess(String username) {
         // Clear attempt counter quickly (no DB hits)
         redis.delete(attemptsKey(username));
@@ -63,7 +63,7 @@ public class LoginAttemptServiceImpl implements LoginAttemptService {
      * Before authenticate(), call this to unlock the DB flag if the 30m window expired.
      * This avoids needing Redis keyspace notifications or a scheduler.
      */
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void autoUnlockIfWindowExpired(String username) {
         boolean lockExists = isLocked(username);
         if (!lockExists) {
