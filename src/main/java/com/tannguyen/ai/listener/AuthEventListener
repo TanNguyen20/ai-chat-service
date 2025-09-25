@@ -1,0 +1,41 @@
+package com.tannguyen.ai.listener;
+
+import com.tannguyen.ai.service.security.LoginAttemptService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.security.authentication.event.AuthenticationFailureBadCredentialsEvent;
+import org.springframework.security.authentication.event.AuthenticationFailureLockedEvent;
+import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class AuthEventListener {
+
+    private final LoginAttemptService loginAttemptService;
+
+    @EventListener
+    public void onBadCredentials(AuthenticationFailureBadCredentialsEvent event) {
+        String username = (String) event.getAuthentication().getPrincipal();
+        log.debug("Bad credentials for user: {}", username);
+        loginAttemptService.onAuthFailure(username);
+    }
+
+    @EventListener
+    public void onLocked(AuthenticationFailureLockedEvent event) {
+        String username = (String) event.getAuthentication().getPrincipal();
+        log.debug("Locked account attempt for user: {}", username);
+        // If the 30-minute window already elapsed (Redis key gone), this will
+        // flip DB isAccountNonLocked back to true so the next try can pass.
+        loginAttemptService.onLockedFailure(username);
+    }
+
+    @EventListener
+    public void onSuccess(AuthenticationSuccessEvent event) {
+        String username = event.getAuthentication().getName();
+        log.debug("Auth success for user: {}", username);
+        loginAttemptService.onAuthSuccess(username);
+    }
+}
