@@ -1,6 +1,7 @@
 package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.dto.request.ChatbotCreateRequestDTO;
+import com.tannguyen.ai.dto.request.ChatbotUpdateRequestDTO;
 import com.tannguyen.ai.dto.response.ChatbotInfoResponseDTO;
 import com.tannguyen.ai.exception.NotFoundException;
 import com.tannguyen.ai.model.primary.ChatbotInfo;
@@ -52,6 +53,26 @@ public class ChatbotInfoServiceImpl implements ChatbotInfoService {
                 .themeColor(request.getThemeColor())
                 .user(user)
                 .build();
+        chatbotInfoRepository.save(chatbotInfo);
+    }
+
+    @Override
+    public void updateChatbot(String uuid, ChatbotUpdateRequestDTO request) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        ChatbotInfo chatbotInfo = chatbotInfoRepository.findById(uuid)
+                .orElseThrow(() -> new NotFoundException("Chatbot with ID " + uuid + " not found"));
+
+        if (!chatbotInfo.getUser().getId().equals(user.getId())) {
+            throw new AccessDeniedException("You don't have permission to update this chatbot");
+        }
+
+        chatbotInfo.setName(request.getName());
+        chatbotInfo.setAllowedHost(request.getAllowedHost());
+        chatbotInfo.setThemeColor(request.getThemeColor());
+
         chatbotInfoRepository.save(chatbotInfo);
     }
 
