@@ -1,6 +1,7 @@
 package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.ChatbotCreateRequestDTO;
+import com.tannguyen.ai.dto.request.ChatbotUpdateRequestDTO;
 import com.tannguyen.ai.dto.response.ChatbotInfoResponseDTO;
 
 public interface ChatbotInfoService {
