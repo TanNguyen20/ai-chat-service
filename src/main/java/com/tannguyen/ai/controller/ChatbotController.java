@@ -1,6 +1,7 @@
 package com.tannguyen.ai.controller;
 
 import com.tannguyen.ai.dto.request.ChatbotCreateRequestDTO;
+import com.tannguyen.ai.dto.request.ChatbotUpdateRequestDTO;
 import com.tannguyen.ai.dto.response.ChatbotConfigResponseDTO;
 import com.tannguyen.ai.dto.response.ChatbotInfoResponseDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
@@ -63,6 +64,13 @@ public class ChatbotController {
     public ResponseEntity<?> createChatbot(@RequestBody ChatbotCreateRequestDTO request) {
         chatbotInfoService.createChatbot(request);
         return ResponseFactory.success(null, "Create chatbot successfully", HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<?> updateChatbot(@PathVariable String uuid,
+                                           @RequestBody ChatbotUpdateRequestDTO request) {
+        chatbotInfoService.updateChatbot(uuid, request);
+        return ResponseFactory.success(null, "Update chatbot successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{uuid}")
