@@ -25,22 +25,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
     private final UserRepository userRepository;
 
     @Override
-    public List<ChatbotConfigResponseDTO> getListApiKeyByCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
-        Long userId = userRepository.findByUsername(username)
-                .orElseThrow(() -> new NotFoundException("User not found")).getId();
-
-        List<ChatbotInfo> chatbotInfoList = chatbotInfoRepository.findByUserId(userId);
-
-        return chatbotInfoList.stream().map((item) -> {
-            String apiKey = AESUtil.encrypt(item.getUuid());
-            return ChatbotConfigResponseDTO.from(item, apiKey);
-        }).toList();
-    }
-
-    @Override
-    public Page<ChatbotConfigResponseDTO> getListApiKeyByCurrentUserPagination(Pageable pageable) {
+    public Page<ChatbotConfigResponseDTO> getListApiKeyByCurrentUser(Pageable pageable) {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
         Long userId = userRepository.findByUsername(username)

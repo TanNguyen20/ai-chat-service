@@ -13,10 +13,13 @@ import com.tannguyen.ai.repository.primary.PageRolePermissionRepository;
 import com.tannguyen.ai.repository.primary.RoleRepository;
 import com.tannguyen.ai.service.inf.PageAccessService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +39,27 @@ public class PageAccessServiceImpl implements PageAccessService {
         });
 
         return pages.stream().map(p -> toDto(p, permsByPage.getOrDefault(p.getId(), List.of()))).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PageAccessDTO> listPagination(Pageable pageable) {
+        Page<PageAccess> page = pageRepo.findAll(pageable);
+
+        // collect ids from current page
+        Set<Long> pageIds = page.getContent().stream()
+                .map(PageAccess::getId)
+                .collect(Collectors.toSet());
+
+        // fetch only relevant permissions; add this derived query in your repo
+        List<PageRolePermission> perms = permRepo.findByPageIdIn(pageIds);
+
+        Map<Long, List<PageRolePermission>> permsByPage = perms.stream()
+                .collect(Collectors.groupingBy(p -> p.getPage().getId()));
+
+        // Page#map keeps all paging metadata intact
+        return page.map(p ->
+                toDto(p, permsByPage.getOrDefault(p.getId(), List.of()))
+        );
     }
 
     /* ---------- Create / Update ---------- */

@@ -4,6 +4,9 @@ import com.tannguyen.ai.dto.request.RoleRequestDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +26,14 @@ public class RoleController {
     @PreAuthorize("@authz.isMinimalRole(authentication)")
     public ResponseEntity<?> getAllRoles() {
         return ResponseFactory.success(roleService.getAllRoles(), "Get all roles successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/pagination")
+    @PreAuthorize("@authz.isMinimalRole(authentication)")
+    public ResponseEntity<?> getRolesPagination(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return ResponseFactory.success(roleService.getRolesPagination(pageable), "Get all roles successfully", HttpStatus.OK);
     }
 
     @PostMapping("/create")

@@ -10,6 +10,8 @@ import com.tannguyen.ai.repository.primary.UserRepository;
 import com.tannguyen.ai.service.inf.RoleService;
 import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +25,9 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleService roleService;
 
-    public List<UserResponseDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(UserResponseDTO::from).toList();
+    public Page<UserResponseDTO> getAllUsers(Pageable pageable) {
+        return userRepository.findAll(pageable)
+                .map(UserResponseDTO::from);
     }
 
     @Override

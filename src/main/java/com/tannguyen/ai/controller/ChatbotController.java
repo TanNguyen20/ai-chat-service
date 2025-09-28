@@ -47,16 +47,10 @@ public class ChatbotController {
     }
 
     @GetMapping("/config-info")
-    public ResponseEntity<?> getChatbotConfigInfo() {
-        List<ChatbotConfigResponseDTO> chatbotConfigResponseDTOList = apiKeyService.getListApiKeyByCurrentUser();
-        return ResponseFactory.success(chatbotConfigResponseDTOList, "Get chatbot config info list successfully", HttpStatus.OK);
-    }
-
-    @GetMapping("/config-info-pagination")
     public ResponseEntity<?> getChatbotConfigInfoPagination(@RequestParam(defaultValue = "0") int page,
                                                             @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
-        Page<ChatbotConfigResponseDTO> chatbotConfigResponseDTOList = apiKeyService.getListApiKeyByCurrentUserPagination(pageable);
+        Page<ChatbotConfigResponseDTO> chatbotConfigResponseDTOList = apiKeyService.getListApiKeyByCurrentUser(pageable);
         return ResponseFactory.success(chatbotConfigResponseDTOList, "Get chatbot config info list successfully", HttpStatus.OK);
     }
 

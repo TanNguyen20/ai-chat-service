@@ -6,6 +6,8 @@ import com.tannguyen.ai.model.primary.Role;
 import com.tannguyen.ai.repository.primary.RoleRepository;
 import com.tannguyen.ai.service.inf.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +26,11 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public List<Role> getAllRoles() {
         return roleRepository.findAll();
+    }
+
+    @Override
+    public Page<Role> getRolesPagination(Pageable pageable) {
+        return roleRepository.findAll(pageable);
     }
 
     @Override

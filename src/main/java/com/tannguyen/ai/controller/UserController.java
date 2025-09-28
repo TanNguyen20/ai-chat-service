@@ -5,6 +5,9 @@ import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
 import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,8 +23,10 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseFactory.success(userService.getAllUsers(), "Get all users successfully", HttpStatus.OK);
+    public ResponseEntity<?> getAllUsers(@RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("username").ascending());
+        return ResponseFactory.success(userService.getAllUsers(pageable), "Get all users successfully", HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/roles")
