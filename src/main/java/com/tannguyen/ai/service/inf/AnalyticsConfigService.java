@@ -12,7 +12,9 @@ public interface AnalyticsConfigService {
 
     AnalyticsConfigResponseDTO getById(Long id);
 
-    Page<AnalyticsConfigResponseDTO> getAll(Pageable pageable);
+    List<AnalyticsConfigResponseDTO> getAll();
+
+    Page<AnalyticsConfigResponseDTO> getPagination(Pageable pageable);
 
     void update(Long id, AnalyticsConfigRequestDTO requestDTO);
 
