@@ -8,6 +8,8 @@ import com.tannguyen.ai.repository.primary.AnalyticsConfigRepository;
 import com.tannguyen.ai.service.inf.AnalyticsConfigService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,10 +38,9 @@ public class AnalyticsConfigServiceImpl implements AnalyticsConfigService {
     }
 
     @Override
-    public List<AnalyticsConfigResponseDTO> getAll() {
-        return repository.findAll().stream()
-                .map(AnalyticsConfigResponseDTO::from)
-                .collect(Collectors.toList());
+    public Page<AnalyticsConfigResponseDTO> getAll(Pageable pageable) {
+        return repository.findAll(pageable)
+                .map(AnalyticsConfigResponseDTO::from);
     }
 
     @Override
