@@ -42,6 +42,17 @@ public class AnalyticsServiceImpl implements AnalyticsService {
     }
 
     @Override
+    public Page<AnalyticsResponseDTO> getAnalyticsPagination(Pageable pageable) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        Set<Role> roles = user.getRoles();
+    
+        return analyticsRepository.findAllByUsersContainingOrRolesIn(user, roles, pageable)
+                .map(AnalyticsResponseDTO::from);
+    }
+
+    @Override
     public AnalyticsResponseDTO getAnalyticsById(Long id) {
         Analytics analytics = analyticsRepository.findById(id).orElseThrow(() -> new NotFoundException("Analytics not found"));
         return AnalyticsResponseDTO.from(analytics);
