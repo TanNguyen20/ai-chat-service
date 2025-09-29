@@ -2,6 +2,8 @@ package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.AnalyticsConfigRequestDTO;
 import com.tannguyen.ai.dto.response.AnalyticsConfigResponseDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -10,7 +12,7 @@ public interface AnalyticsConfigService {
 
     AnalyticsConfigResponseDTO getById(Long id);
 
-    List<AnalyticsConfigResponseDTO> getAll();
+    Page<AnalyticsConfigResponseDTO> getAll(Pageable pageable);
 
     void update(Long id, AnalyticsConfigRequestDTO requestDTO);
 
