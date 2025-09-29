@@ -32,8 +32,10 @@ public class AnalyticsConfigController {
 
     @GetMapping
     @PreAuthorize("@authz.isMinimalRole(authentication)")
-    public ResponseEntity<?> getAll() {
-        return ResponseFactory.success(service.getAll(), "Get all analytics config successfully", HttpStatus.OK);
+    public ResponseEntity<?> getAll(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        return ResponseFactory.success(service.getAll(pageable), "Get all analytics config successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
