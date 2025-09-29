@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 public interface AnalyticsRepository extends JpaRepository<Analytics, Long> {
     List<Analytics> findAllByUsersContainingOrRolesIn(User user, Collection<Role> roles);
