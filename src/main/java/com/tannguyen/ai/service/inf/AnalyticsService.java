@@ -2,7 +2,7 @@ package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
 import com.tannguyen.ai.dto.response.AnalyticsResponseDTO;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
