@@ -44,7 +44,7 @@ public class AnalyticsConfigController {
     public ResponseEntity<?> getPagination(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
-        return ResponseFactory.success(service.getAll(pageable), "Get all analytics config successfully", HttpStatus.OK);
+        return ResponseFactory.success(service.getPagination(pageable), "Get all analytics config successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
