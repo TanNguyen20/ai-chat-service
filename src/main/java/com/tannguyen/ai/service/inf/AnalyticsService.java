@@ -2,11 +2,15 @@ package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.AnalyticsRequestDTO;
 import com.tannguyen.ai.dto.response.AnalyticsResponseDTO;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface AnalyticsService {
     List<AnalyticsResponseDTO> getAnalyticsList();
+
+    Page<AnalyticsResponseDTO> getAnalyticsPagination(Pageable pageable);
 
     AnalyticsResponseDTO getAnalyticsById(Long id);
 
