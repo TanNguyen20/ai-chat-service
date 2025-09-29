@@ -38,7 +38,14 @@ public class AnalyticsConfigServiceImpl implements AnalyticsConfigService {
     }
 
     @Override
-    public Page<AnalyticsConfigResponseDTO> getAll(Pageable pageable) {
+    public List<AnalyticsConfigResponseDTO> getAll() {
+        return repository.findAll().stream()
+                .map(AnalyticsConfigResponseDTO::from)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<AnalyticsConfigResponseDTO> getPagination(Pageable pageable) {
         return repository.findAll(pageable)
                 .map(AnalyticsConfigResponseDTO::from);
     }
