@@ -21,11 +21,12 @@ public class ChatbotInfoServiceImpl implements ChatbotInfoService {
 
     private final ChatbotInfoRepository chatbotInfoRepository;
     private final UserRepository userRepository;
+    private final AESUtil aesUtil;
 
     @Override
     public ChatbotInfoResponseDTO getChatbotInfo(String encryptedKey, String host) {
         try {
-            String decrypted = AESUtil.decrypt(encryptedKey);
+            String decrypted = aesUtil.decrypt(encryptedKey);
             String[] parts = decrypted.split("::");
             String uuid = parts[0];
 

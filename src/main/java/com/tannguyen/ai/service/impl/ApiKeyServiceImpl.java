@@ -23,6 +23,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
 
     private final ChatbotInfoRepository chatbotInfoRepository;
     private final UserRepository userRepository;
+    private final AESUtil aesUtil;
 
     @Override
     public Page<ChatbotConfigResponseDTO> getListApiKeyByCurrentUser(Pageable pageable) {
@@ -34,7 +35,7 @@ public class ApiKeyServiceImpl implements ApiKeyService {
         Page<ChatbotInfo> chatbotInfos = chatbotInfoRepository.findByUserId(userId, pageable);
 
         return chatbotInfos.map(item -> {
-            String apiKey = AESUtil.encrypt(item.getUuid());
+            String apiKey = aesUtil.encrypt(item.getUuid());
             return ChatbotConfigResponseDTO.from(item, apiKey);
         });
     }

@@ -25,3 +25,9 @@ datasources:
     username: ${DB_USERNAME}
     password: ${SECONDARY_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
+
+app:
+  security:
+    init-vector: W1D>EI2u8.[=[bDj
+    secret-key: CAF/}0=v16A:Wp!8]l86Rx!2czeB_6=9
+    jwt-secret-key: zT>7D4v9F5~qQ{d1tL|k\ta[yN^ZX3Byo+]%/4gBHfmHL0N-VR
