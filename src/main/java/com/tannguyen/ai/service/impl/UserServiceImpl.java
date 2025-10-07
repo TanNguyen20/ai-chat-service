@@ -4,6 +4,7 @@ import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
 import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
+import com.tannguyen.ai.exception.BadRequestException;
 import com.tannguyen.ai.model.primary.Role;
 import com.tannguyen.ai.model.primary.User;
 import com.tannguyen.ai.repository.primary.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -76,5 +78,51 @@ public class UserServiceImpl implements UserService {
             user.setCredentialsNonExpired(userInfoRequestDTO.getIsCredentialsNonExpired());
         }
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeMyPassword(String currentPassword, String newPassword) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new BadRequestException("Current password is incorrect");
+        }
+
+        if (passwordEncoder.matches(newPassword, user.getPassword())) {
+            throw new BadRequestException("New password must be different from the current password");
+        }
+
+        validatePasswordPolicy(newPassword);
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+
+        // Optional: force re-login by expiring credentials if you track sessions/tokens
+        // user.setCredentialsNonExpired(false);
+    }
+
+    @Override
+    @Transactional
+    public void adminResetPassword(Long userId, String newPassword) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        validatePasswordPolicy(newPassword);
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        // usually you want to force the user to change password on next login
+        user.setCredentialsNonExpired(false);
+        userRepository.save(user);
+    }
+
+    private void validatePasswordPolicy(String pwd) {
+        // Minimal example; replace with your real policy/validator.
+        if (Objects.isNull(pwd) || pwd.length() < 8) {
+            throw new BadRequestException("Password must be at least 8 characters");
+        }
+        // You could add checks for uppercase/lowercase/digits/special, breached lists, etc.
     }
 }
