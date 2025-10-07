@@ -1,6 +1,7 @@
 package com.tannguyen.ai.service.inf;
 
 import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
+import com.tannguyen.ai.dto.request.UserProfileUpdateRequestDTO;
 import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.enums.RoleName;
 import org.springframework.data.domain.Page;
