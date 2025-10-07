@@ -18,7 +18,7 @@ public class User extends Auditable {
     private String username;
 
     @Column(name = "fullname")
-    private String fullname;
+    private String fullName;
 
     @Column(name = "email", unique = true)
     private String email;

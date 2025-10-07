@@ -5,6 +5,7 @@ import com.tannguyen.ai.model.primary.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
@@ -17,6 +18,10 @@ public class UserResponseDTO {
     private boolean isCredentialsNonExpired;
     private boolean isEnabled;
     private Set<Role> roles;
+    private String fullName;
+    private String email;
+
+    private LocalDateTime createdAt;
 
     public static UserResponseDTO from(User user) {
         return UserResponseDTO.builder()
@@ -27,6 +32,9 @@ public class UserResponseDTO {
                 .isCredentialsNonExpired(user.isCredentialsNonExpired())
                 .isEnabled(user.isEnabled())
                 .roles(user.getRoles())
+                .fullName(user.getFullName())
+                .email(user.getEmail())
+                .createdAt(user.getCreatedAt())
                 .build();
     }
 }

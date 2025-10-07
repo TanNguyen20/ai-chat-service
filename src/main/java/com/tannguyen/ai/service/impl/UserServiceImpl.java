@@ -132,14 +132,14 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
     
         String newEmail = req.getEmail().trim();
-        String newFullname = req.getFullname().trim();
+        String newFullname = req.getFullName().trim();
     
         if (userRepository.existsByEmailIgnoreCaseAndIdNot(newEmail, user.getId())) {
             throw new BadRequestException("Email is already in use");
         }
     
         user.setEmail(newEmail);
-        user.setFullname(newFullname);
+        user.setFullName(newFullname);
     
         userRepository.save(user);
         return UserResponseDTO.from(user);

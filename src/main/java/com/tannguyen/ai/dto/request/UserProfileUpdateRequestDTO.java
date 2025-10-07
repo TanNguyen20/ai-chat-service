@@ -10,7 +10,7 @@ public class UserProfileUpdateRequestDTO {
 
     @NotBlank(message = "Full name cannot be blank")
     @Size(max = 255, message = "Full name is too long")
-    private String fullname;
+    private String fullName;
 
     @NotBlank(message = "Email cannot be blank")
     @Email(message = "Email is invalid")
