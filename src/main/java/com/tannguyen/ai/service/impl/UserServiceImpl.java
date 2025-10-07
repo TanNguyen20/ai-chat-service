@@ -1,6 +1,7 @@
 package com.tannguyen.ai.service.impl;
 
 import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
+import com.tannguyen.ai.dto.request.UserProfileUpdateRequestDTO;
 import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
@@ -121,5 +122,26 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("Password must be at least 8 characters");
         }
         // You could add checks for uppercase/lowercase/digits/special, breached lists, etc.
+    }
+
+    @Override
+    @Transactional
+    public UserResponseDTO updateMyProfile(UserProfileUpdateRequestDTO req) {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+    
+        String newEmail = req.getEmail().trim();
+        String newFullname = req.getFullname().trim();
+    
+        if (userRepository.existsByEmailIgnoreCaseAndIdNot(newEmail, user.getId())) {
+            throw new BadRequestException("Email is already in use");
+        }
+    
+        user.setEmail(newEmail);
+        user.setFullname(newFullname);
+    
+        userRepository.save(user);
+        return UserResponseDTO.from(user);
     }
 }
