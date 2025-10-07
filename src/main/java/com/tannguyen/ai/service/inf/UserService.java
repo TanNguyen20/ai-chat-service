@@ -23,4 +23,6 @@ public interface UserService {
     void changeMyPassword(String currentPassword, String newPassword);
 
     void adminResetPassword(Long userId, String newPassword);
+
+    UserResponseDTO updateMyProfile(UserProfileUpdateRequestDTO req);
 }
