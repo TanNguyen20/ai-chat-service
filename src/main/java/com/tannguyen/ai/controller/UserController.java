@@ -62,9 +62,6 @@ public class UserController {
 
     @PutMapping("/me/password")
     public ResponseEntity<?> changeMyPassword(@Validated @RequestBody ChangePasswordRequestDTO req) {
-        if (!req.getNewPassword().equals(req.getConfirmNewPassword())) {
-            return ResponseFactory.error(HttpStatus.BAD_REQUEST, "Validation failed", "New password and confirm password do not match");
-        }
         userService.changeMyPassword(req.getCurrentPassword(), req.getNewPassword());
         return ResponseFactory.success(null, "Password changed successfully", HttpStatus.NO_CONTENT);
     }
