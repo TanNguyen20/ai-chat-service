@@ -19,4 +19,8 @@ public interface UserService {
     void deleteUser(Long userId);
 
     void resetUserInfo(Long userId, UserInfoRequestDTO userInfoRequestDTO);
+
+    void changeMyPassword(String currentPassword, String newPassword);
+
+    void adminResetPassword(Long userId, String newPassword);
 }
