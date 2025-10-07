@@ -56,4 +56,21 @@ public class UserController {
         userService.resetUserInfo(id, userInfoRequestDTO);
         return ResponseFactory.success(null, "Update user successfully", HttpStatus.NO_CONTENT);
     }
+
+    @PutMapping("/me/password")
+    public ResponseEntity<?> changeMyPassword(@Validated @RequestBody ChangePasswordRequestDTO req) {
+        if (!req.getNewPassword().equals(req.getConfirmNewPassword())) {
+            return ResponseFactory.error("New password and confirm password do not match", HttpStatus.BAD_REQUEST);
+        }
+        userService.changeMyPassword(req.getCurrentPassword(), req.getNewPassword());
+        return ResponseFactory.success(null, "Password changed successfully", HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/{id}/password")
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    public ResponseEntity<?> adminResetPassword(@PathVariable Long id,
+                                                @Validated @RequestBody AdminResetPasswordRequestDTO req) {
+        userService.adminResetPassword(id, req.getNewPassword());
+        return ResponseFactory.success(null, "Password reset successfully", HttpStatus.NO_CONTENT);
+    }
 }
