@@ -101,9 +101,6 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
-
-        // Optional: force re-login by expiring credentials if you track sessions/tokens
-        // user.setCredentialsNonExpired(false);
     }
 
     @Override
@@ -115,8 +112,6 @@ public class UserServiceImpl implements UserService {
         validatePasswordPolicy(newPassword);
 
         user.setPassword(passwordEncoder.encode(newPassword));
-        // usually you want to force the user to change password on next login
-        user.setCredentialsNonExpired(false);
         userRepository.save(user);
     }
 
