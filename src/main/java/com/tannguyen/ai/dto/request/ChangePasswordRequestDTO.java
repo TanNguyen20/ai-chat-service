@@ -10,7 +10,4 @@ public class ChangePasswordRequestDTO {
 
     @NotBlank
     private String newPassword;
-
-    @NotBlank
-    private String confirmNewPassword;
 }
