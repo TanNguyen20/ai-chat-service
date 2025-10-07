@@ -1,5 +1,7 @@
 package com.tannguyen.ai.controller;
 
+import com.tannguyen.ai.dto.request.UserProfileUpdateRequestDTO;
+import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.dto.request.AdminResetPasswordRequestDTO;
 import com.tannguyen.ai.dto.request.ChangePasswordRequestDTO;
 import com.tannguyen.ai.dto.request.RoleAssignmentRequestDTO;
@@ -51,6 +53,12 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseFactory.success(null, "Delete user successfully", HttpStatus.NO_CONTENT);
+    }
+
+    @PutMapping("/me")
+    public ResponseEntity<?> updateMyProfile(@Validated @RequestBody UserProfileUpdateRequestDTO req) {
+        UserResponseDTO updated = userService.updateMyProfile(req);
+        return ResponseFactory.success(updated, "Profile updated successfully", HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
