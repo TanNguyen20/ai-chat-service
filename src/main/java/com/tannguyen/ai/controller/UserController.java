@@ -1,5 +1,7 @@
 package com.tannguyen.ai.controller;
 
+import com.tannguyen.ai.dto.request.AdminResetPasswordRequestDTO;
+import com.tannguyen.ai.dto.request.ChangePasswordRequestDTO;
 import com.tannguyen.ai.dto.request.RoleAssignmentRequestDTO;
 import com.tannguyen.ai.dto.request.UserInfoRequestDTO;
 import com.tannguyen.ai.dto.response.ResponseFactory;
