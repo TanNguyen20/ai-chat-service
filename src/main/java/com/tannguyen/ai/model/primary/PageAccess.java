@@ -21,9 +21,9 @@ public class PageAccess {
     @Column(nullable = false, length = 512)
     private String description;
 
-    @Column(nullable = false, length = 512)
+    @Column(length = 512)
     private String name;
 
-    @Column(nullable = false, length = 512)
+    @Column(length = 512)
     private String icon;
 }
