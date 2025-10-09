@@ -69,6 +69,8 @@ public class PageAccessServiceImpl implements PageAccessService {
         PageAccess page = PageAccess.builder()
                 .url(req.url())
                 .description(req.description())
+                .name(req.name())
+                .icon(req.icon())
                 .build();
         page = pageRepo.save(page);
         upsertPermissions(page, req.rolePermissions());
@@ -80,6 +82,8 @@ public class PageAccessServiceImpl implements PageAccessService {
         PageAccess page = pageRepo.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Page not found id=" + id));
         page.setUrl(req.url());
+        page.setName(req.name());
+        page.setIcon(req.icon());
         page.setDescription(req.description());
         pageRepo.save(page);
         // replace permissions for the page:
@@ -136,6 +140,6 @@ public class PageAccessServiceImpl implements PageAccessService {
             String roleName = p.getRole().getName().name();
             roleMap.put(roleName, new CrudSetDTO(p.isCanCreate(), p.isCanRead(), p.isCanUpdate(), p.isCanDelete()));
         }
-        return new PageAccessDTO(page.getId(), page.getUrl(), page.getDescription(), roleMap);
+        return new PageAccessDTO(page.getId(), page.getUrl(), page.getDescription(), roleMap, page.getName(), page.getIcon());
     }
 }
