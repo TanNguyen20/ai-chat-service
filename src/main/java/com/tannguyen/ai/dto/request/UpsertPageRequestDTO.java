@@ -9,6 +9,8 @@ import java.util.Map;
 public record UpsertPageRequestDTO(
         @NotBlank @Size(max = 256) String url,
         @NotBlank @Size(max = 512) String description,
-        Map<String, CrudSetDTO> rolePermissions
+        Map<String, CrudSetDTO> rolePermissions,
+        String name,
+        String icon
 ) {
 }
