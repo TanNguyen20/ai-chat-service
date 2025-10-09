@@ -6,5 +6,7 @@ public record PageAccessDTO(
         Long id,
         String url,
         String description,
-        Map<String, CrudSetDTO> rolePermissions // key = role name e.g. "ROLE_ADMIN"
+        Map<String, CrudSetDTO> rolePermissions,
+        String name, 
+        String icon
 ) {}
