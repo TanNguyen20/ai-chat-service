@@ -6,9 +6,11 @@ import com.tannguyen.ai.dto.response.UserResponseDTO;
 import com.tannguyen.ai.enums.RoleName;
 import com.tannguyen.ai.exception.NotFoundException;
 import com.tannguyen.ai.exception.BadRequestException;
+import com.tannguyen.ai.exception.UnauthorizedException;
 import com.tannguyen.ai.model.primary.Role;
 import com.tannguyen.ai.model.primary.User;
 import com.tannguyen.ai.repository.primary.UserRepository;
+import com.tannguyen.ai.security.customizer.CustomUserDetails;
 import com.tannguyen.ai.service.inf.RoleService;
 import com.tannguyen.ai.service.inf.UserService;
 import lombok.AllArgsConstructor;
@@ -37,8 +39,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new NotFoundException("User not found"));
+        var context = SecurityContextHolder.getContext();
+        var auth = context != null ? context.getAuthentication() : null;
+
+        if (auth == null || !auth.isAuthenticated() || "anonymousUser".equals(auth.getPrincipal())) {
+            // Replace with your own Unauthorized exception/handler if you prefer
+            throw new UnauthorizedException("Unauthenticated");
+        }
+
+        // Fast-path: if your Authentication principal is CustomUserDetails, use it directly
+        Object principal = auth.getPrincipal();
+        if (principal instanceof CustomUserDetails cud) {
+            return UserResponseDTO.from(cud.getUser());
+        }
+
+        // Otherwise fall back to DB lookup by subject (username), with email fallback
+        String subject = auth.getName(); // set by JwtAuthenticationFilter from JWT subject
+        User user = userRepository.findByUsername(subject)
+                .orElseGet(() -> userRepository.findByEmail(subject)
+                        .orElseThrow(() -> new NotFoundException("User not found")));
+
         return UserResponseDTO.from(user);
     }
 

@@ -4,6 +4,7 @@ import com.tannguyen.ai.model.audit.Auditable;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.Instant;
 import java.util.Set;
 
 @Data
@@ -45,4 +46,16 @@ public class User extends Auditable {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles;
+
+    @Column(name = "provider")
+    private String provider;
+
+    @Column(name = "provider_subject")
+    private String providerSubject;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "last_login_at")
+    private Instant lastLoginAt;
 }

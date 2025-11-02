@@ -20,6 +20,7 @@ public class UserResponseDTO {
     private Set<Role> roles;
     private String fullName;
     private String email;
+    private String avatarUrl;
 
     private LocalDateTime createdAt;
 
@@ -34,6 +35,7 @@ public class UserResponseDTO {
                 .roles(user.getRoles())
                 .fullName(user.getFullName())
                 .email(user.getEmail())
+                .avatarUrl(user.getAvatarUrl())
                 .createdAt(user.getCreatedAt())
                 .build();
     }
