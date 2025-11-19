@@ -11,7 +11,7 @@ spring:
               - profile
               - email
               - offline_access
-            redirect-uri: "http://localhost:8080/login/oauth2/code/azure"
+            redirect-uri: ${BASE_URL:http://localhost:8080}/login/oauth2/code/azure
             client-name: "Microsoft"
         provider:
           azure:
