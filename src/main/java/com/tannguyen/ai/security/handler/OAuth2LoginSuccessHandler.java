@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
@@ -26,8 +27,9 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     private final JwtUtil jwtUtil;
     private final OAuthUserProvisioningService provisioning;
 
-    // set to your real frontend origin
-    private static final String FRONTEND_ROOT = "http://localhost:3000";
+    @Value("${app.frontend.base-url}")
+    private String frontendBaseUrl;
+
     private static final String CALLBACK_PATH = "/auth/callback";
 
     @Override
@@ -35,7 +37,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
                                         HttpServletResponse response,
                                         Authentication auth) throws IOException {
         if (!(auth instanceof OAuth2AuthenticationToken oauth)) {
-            response.sendRedirect(FRONTEND_ROOT);
+            response.sendRedirect(frontendBaseUrl);
             return;
         }
 
@@ -52,7 +54,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         long expiresInSec = Math.max(1L, jwtUtil.getRemainingMs(jwt) / 1000L);
 
         String redirectUrl = UriComponentsBuilder
-                .fromHttpUrl(FRONTEND_ROOT + CALLBACK_PATH)
+                .fromHttpUrl(frontendBaseUrl + CALLBACK_PATH)
                 .fragment("access_token=" + jwt + "&expires_in=" + expiresInSec)
                 .build(true)
                 .toUriString();

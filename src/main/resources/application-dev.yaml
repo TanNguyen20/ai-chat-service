@@ -44,6 +44,8 @@ datasources:
     driver-class-name: org.postgresql.Driver
 
 app:
+  frontend:
+    base-url: ${FRONTEND_BASE_URL:http://localhost:3000}
   security:
     init-vector: ${INIT_VECTOR:}
     secret-key: ${SECRET_KEY:}
