@@ -40,7 +40,7 @@ public class FPTController {
                 mail, mobilePhone, userPrincipalName, officeLocation,
                 preferredLanguage, pageable
         );
-        return ResponseFactory.success(page, "Get FPT Extend records successfully", HttpStatus.OK);
+        return ResponseFactory.success(page, "Get FPT records successfully", HttpStatus.OK);
     }
 
     @GetMapping("/search")
@@ -88,24 +88,24 @@ public class FPTController {
                 mail, mobilePhone, userPrincipalName, officeLocation,
                 preferredLanguage, pageable
         );
-        return ResponseFactory.success(page, "Search FPT Extend records successfully", HttpStatus.OK);
+        return ResponseFactory.success(page, "Search FPT records successfully", HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> get(@RequestParam(defaultValue = "FPT") FPTType fptType, @PathVariable String id) {
         var data = fptService.getById(fptType, id);
-        return ResponseFactory.success(data, "Get FPT Extend record successfully", HttpStatus.OK);
+        return ResponseFactory.success(data, "Get FPT record successfully", HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@RequestParam(defaultValue = "FPT") FPTType fptType, @PathVariable String id) {
         fptService.deleteById(fptType, id);
-        return ResponseFactory.success(null, "Delete FPT Extend record successfully", HttpStatus.NO_CONTENT);
+        return ResponseFactory.success(null, "Delete FPT record successfully", HttpStatus.NO_CONTENT);
     }
 
     @GetMapping("/facets")
     public ResponseEntity<?> facets(@RequestParam(defaultValue = "FPT") FPTType fptType) {
         var facets = fptService.facets(fptType);
-        return ResponseFactory.success(facets, "Get FPT Extend facets successfully", HttpStatus.OK);
+        return ResponseFactory.success(facets, "Get FPT facets successfully", HttpStatus.OK);
     }
 }

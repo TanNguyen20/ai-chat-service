@@ -158,7 +158,7 @@ public class FPTServiceImpl implements FPTService {
         return switch (fptType) {
             case FPT -> {
                 Specification<FPTAll> spec = Specification
-                        .where(FPTSpecifications.<FPTAll>containsIgnoreCase("display_name", name))
+                        .where(FPTSpecifications.<FPTAll>containsIgnoreCase("displayName", name))
                         .and(FPTSpecifications.filter(
                                 odataType, displayName, givenName, surname, jobTitle,
                                 mail, mobilePhone, userPrincipalName, officeLocation, preferredLanguage
@@ -167,7 +167,7 @@ public class FPTServiceImpl implements FPTService {
             }
             case FPT_EXTEND -> {
                 Specification<FPTExtend> spec = Specification
-                        .where(FPTSpecifications.<FPTExtend>containsIgnoreCase("display_name", name))
+                        .where(FPTSpecifications.<FPTExtend>containsIgnoreCase("displayName", name))
                         .and(FPTSpecifications.filter(
                                 odataType, displayName, givenName, surname, jobTitle,
                                 mail, mobilePhone, userPrincipalName, officeLocation, preferredLanguage
@@ -176,7 +176,7 @@ public class FPTServiceImpl implements FPTService {
             }
             case FIS -> {
                 Specification<FPTIS> spec = Specification
-                        .where(FPTSpecifications.<FPTIS>containsIgnoreCase("display_name", name))
+                        .where(FPTSpecifications.<FPTIS>containsIgnoreCase("displayName", name))
                         .and(FPTSpecifications.filter(
                                 odataType, displayName, givenName, surname, jobTitle,
                                 mail, mobilePhone, userPrincipalName, officeLocation, preferredLanguage
@@ -185,7 +185,7 @@ public class FPTServiceImpl implements FPTService {
             }
             case FIST_HCM -> {
                 Specification<FPTISHCM> spec = Specification
-                        .where(FPTSpecifications.<FPTISHCM>containsIgnoreCase("display_name", name))
+                        .where(FPTSpecifications.<FPTISHCM>containsIgnoreCase("displayName", name))
                         .and(FPTSpecifications.filter(
                                 odataType, displayName, givenName, surname, jobTitle,
                                 mail, mobilePhone, userPrincipalName, officeLocation, preferredLanguage
