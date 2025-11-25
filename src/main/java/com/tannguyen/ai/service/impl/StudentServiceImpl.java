@@ -4,9 +4,8 @@ import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
 import com.tannguyen.ai.enums.StudentType;
 import com.tannguyen.ai.mapper.StudentMapper;
-import com.tannguyen.ai.model.secondary.StudentBase;
-import com.tannguyen.ai.model.secondary.StudentDNC;
-import com.tannguyen.ai.model.secondary.StudentUSH;
+import com.tannguyen.ai.model.secondary.student.StudentDNC;
+import com.tannguyen.ai.model.secondary.student.StudentUSH;
 import com.tannguyen.ai.repository.secondary.StudentDNCRepository;
 import com.tannguyen.ai.repository.secondary.StudentFacetRepository;
 import com.tannguyen.ai.repository.secondary.StudentUSHRepository;
@@ -19,7 +18,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor

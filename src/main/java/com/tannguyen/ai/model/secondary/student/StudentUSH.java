@@ -1,5 +1,6 @@
-package com.tannguyen.ai.model.secondary;
+package com.tannguyen.ai.model.secondary.student;
 
+import com.tannguyen.ai.model.secondary.base.StudentBase;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -10,5 +11,5 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Table(name = "student_ush")
-public class StudentUSH extends StudentBase{
+public class StudentUSH extends StudentBase {
 }

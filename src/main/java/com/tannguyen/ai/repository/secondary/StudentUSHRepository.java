@@ -1,6 +1,6 @@
 package com.tannguyen.ai.repository.secondary;
 
-import com.tannguyen.ai.model.secondary.StudentUSH;
+import com.tannguyen.ai.model.secondary.student.StudentUSH;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.tannguyen.ai.spec;
 
-import com.tannguyen.ai.model.secondary.StudentBase;
+import com.tannguyen.ai.model.secondary.base.StudentBase;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 

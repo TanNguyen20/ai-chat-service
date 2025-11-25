@@ -43,6 +43,12 @@ datasources:
     password: ${SECONDARY_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
+  third:
+    jdbc-url: ${THIRD_JDBC_URL}
+    username: ${DB_USERNAME}
+    password: ${THIRD_DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
 app:
   frontend:
     base-url: ${FRONTEND_BASE_URL:http://localhost:3000}

@@ -1,4 +1,4 @@
-package com.tannguyen.ai.model.secondary;
+package com.tannguyen.ai.model.secondary.base;
 
 import jakarta.persistence.*;
 import lombok.*;

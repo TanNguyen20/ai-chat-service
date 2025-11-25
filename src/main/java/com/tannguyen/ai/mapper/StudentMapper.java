@@ -2,9 +2,9 @@ package com.tannguyen.ai.mapper;
 
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
-import com.tannguyen.ai.model.secondary.StudentBase;
-import com.tannguyen.ai.model.secondary.StudentDNC;
-import com.tannguyen.ai.model.secondary.StudentUSH;
+import com.tannguyen.ai.model.secondary.base.StudentBase;
+import com.tannguyen.ai.model.secondary.student.StudentDNC;
+import com.tannguyen.ai.model.secondary.student.StudentUSH;
 
 import java.util.function.Supplier;
 
