@@ -10,37 +10,33 @@ import java.util.List;
 public interface FptAllRepository extends JpaRepository<FPTAll, String>,
         JpaSpecificationExecutor<FPTAll>, FptFacetRepository {
 
-    @Query("select distinct f.odataType from FPTExtend f where f.odataType is not null and f.odataType <> ''")
+    @Query("select distinct f.odataType from FPTAll f where f.odataType is not null and f.odataType <> ''")
     List<String> distinctOdataType();
 
-    @Query("select distinct f.displayName from FPTExtend f where f.displayName is not null and f.displayName <> ''")
+    @Query("select distinct f.displayName from FPTAll f where f.displayName is not null and f.displayName <> ''")
     List<String> distinctDisplayName();
 
-    @Query("select distinct f.givenName from FPTExtend f where f.givenName is not null and f.givenName <> ''")
+    @Query("select distinct f.givenName from FPTAll f where f.givenName is not null and f.givenName <> ''")
     List<String> distinctGivenName();
 
-    @Query("select distinct f.surname from FPTExtend f where f.surname is not null and f.surname <> ''")
+    @Query("select distinct f.surname from FPTAll f where f.surname is not null and f.surname <> ''")
     List<String> distinctSurname();
 
-    @Query("select distinct f.jobTitle from FPTExtend f where f.jobTitle is not null and f.jobTitle <> ''")
+    @Query("select distinct f.jobTitle from FPTAll f where f.jobTitle is not null and f.jobTitle <> ''")
     List<String> distinctJobTitle();
 
-    @Query("select distinct f.mail from FPTExtend f where f.mail is not null and f.mail <> ''")
+    @Query("select distinct f.mail from FPTAll f where f.mail is not null and f.mail <> ''")
     List<String> distinctMail();
 
-    @Query("select distinct f.mobilePhone from FPTExtend f where f.mobilePhone is not null and f.mobilePhone <> ''")
+    @Query("select distinct f.mobilePhone from FPTAll f where f.mobilePhone is not null and f.mobilePhone <> ''")
     List<String> distinctMobilePhone();
 
-    @Query("select distinct f.userPrincipalName from FPTExtend f where f.userPrincipalName is not null and f.userPrincipalName <> ''")
+    @Query("select distinct f.userPrincipalName from FPTAll f where f.userPrincipalName is not null and f.userPrincipalName <> ''")
     List<String> distinctUserPrincipalName();
 
-    @Query("select distinct f.officeLocation from FPTExtend f where f.officeLocation is not null and f.officeLocation <> ''")
+    @Query("select distinct f.officeLocation from FPTAll f where f.officeLocation is not null and f.officeLocation <> ''")
     List<String> distinctOfficeLocation();
 
-    @Query("select distinct f.preferredLanguage from FPTExtend f where f.preferredLanguage is not null and f.preferredLanguage <> ''")
+    @Query("select distinct f.preferredLanguage from FPTAll f where f.preferredLanguage is not null and f.preferredLanguage <> ''")
     List<String> distinctPreferredLanguage();
-
-    // TEXT[] flatten array → use PostgreSQL UNNEST
-    @Query(value = "SELECT DISTINCT unnest(business_phones) FROM fpt_extend WHERE business_phones IS NOT NULL", nativeQuery = true)
-    List<String> distinctBusinessPhones();
 }

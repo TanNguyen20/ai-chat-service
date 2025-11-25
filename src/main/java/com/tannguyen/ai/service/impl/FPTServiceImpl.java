@@ -65,7 +65,7 @@ public class FPTServiceImpl implements FPTService {
                 );
                 yield fisRepository.findAll(spec, pageable).map(FPTMapper::toDto);
             }
-            case FIST_HCM -> {
+            case FIS_HCM -> {
                 Specification<FPTISHCM> spec = FPTSpecifications.filter(
                         odataType, displayName, givenName, surname, jobTitle,
                         mail, mobilePhone, userPrincipalName, officeLocation, preferredLanguage
@@ -123,7 +123,7 @@ public class FPTServiceImpl implements FPTService {
                         ));
                 yield fisRepository.findAll(spec, pageable).map(FPTMapper::toDto);
             }
-            case FIST_HCM -> {
+            case FIS_HCM -> {
                 Specification<FPTISHCM> spec = Specification
                         .where(FPTSpecifications.<FPTISHCM>freeText(query))
                         .and(FPTSpecifications.filter(
@@ -183,7 +183,7 @@ public class FPTServiceImpl implements FPTService {
                         ));
                 yield fisRepository.findAll(spec, pageable).map(FPTMapper::toDto);
             }
-            case FIST_HCM -> {
+            case FIS_HCM -> {
                 Specification<FPTISHCM> spec = Specification
                         .where(FPTSpecifications.<FPTISHCM>containsIgnoreCase("displayName", name))
                         .and(FPTSpecifications.filter(
@@ -207,7 +207,7 @@ public class FPTServiceImpl implements FPTService {
             case FIS -> fisRepository.findById(id)
                     .map(FPTMapper::toDto)
                     .orElseThrow(() -> new IllegalArgumentException("FIS not found: " + id));
-            case FIST_HCM -> fishcmRepository.findById(id)
+            case FIS_HCM -> fishcmRepository.findById(id)
                     .map(FPTMapper::toDto)
                     .orElseThrow(() -> new IllegalArgumentException("FIS HCM not found: " + id));
         };
@@ -231,7 +231,7 @@ public class FPTServiceImpl implements FPTService {
                     fisRepository.deleteById(id);
                 }
             }
-            case FIST_HCM -> {
+            case FIS_HCM -> {
                 if (fishcmRepository.existsById(id)) {
                     fishcmRepository.deleteById(id);
                 }
@@ -245,20 +245,14 @@ public class FPTServiceImpl implements FPTService {
             case FPT -> toFacetMap(fptAllRepository);
             case FPT_EXTEND -> toFacetMap(fptExtendRepository);
             case FIS -> toFacetMap(fisRepository);
-            case FIST_HCM -> toFacetMap(fishcmRepository);
+            case FIS_HCM -> toFacetMap(fishcmRepository);
         };
     }
 
     private Map<String, List<String>> toFacetMap(FptFacetRepository r) {
         return Map.of(
                 "odataType", r.distinctOdataType(),
-                "displayName", r.distinctDisplayName(),
-                "givenName", r.distinctGivenName(),
-                "surname", r.distinctSurname(),
                 "jobTitle", r.distinctJobTitle(),
-                "mail", r.distinctMail(),
-                "mobilePhone", r.distinctMobilePhone(),
-                "userPrincipalName", r.distinctUserPrincipalName(),
                 "officeLocation", r.distinctOfficeLocation(),
                 "preferredLanguage", r.distinctPreferredLanguage()
         );

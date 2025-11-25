@@ -39,8 +39,4 @@ public interface FptExtendRepository extends JpaRepository<FPTExtend, String>,
 
     @Query("select distinct f.preferredLanguage from FPTExtend f where f.preferredLanguage is not null and f.preferredLanguage <> ''")
     List<String> distinctPreferredLanguage();
-
-    // TEXT[] flatten array → use PostgreSQL UNNEST
-    @Query(value = "SELECT DISTINCT unnest(business_phones) FROM fpt_extend WHERE business_phones IS NOT NULL", nativeQuery = true)
-    List<String> distinctBusinessPhones();
 }

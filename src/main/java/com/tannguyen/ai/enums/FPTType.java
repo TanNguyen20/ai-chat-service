@@ -4,5 +4,5 @@ public enum FPTType {
     FPT,
     FPT_EXTEND,
     FIS,
-    FIST_HCM
+    FIS_HCM
 }
