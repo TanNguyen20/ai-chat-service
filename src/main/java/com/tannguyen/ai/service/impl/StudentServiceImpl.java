@@ -1,5 +1,6 @@
 package com.tannguyen.ai.service.impl;
 
+import com.tannguyen.ai.dto.StudentColumnDTO;
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
 import com.tannguyen.ai.enums.StudentType;
@@ -194,5 +195,28 @@ public class StudentServiceImpl implements StudentService {
             out.put(k, List.copyOf(set));
         }
         return out;
+    }
+
+    @Override
+    public List<StudentColumnDTO> getColumns() {
+        // Common columns for all student types
+        List<StudentColumnDTO> columns = new ArrayList<>(List.of(
+                new StudentColumnDTO("mssv", "ID", "text", true),
+                new StudentColumnDTO("hoTen", "Full name", "text", true),
+                new StudentColumnDTO("gioiTinh", "Sex", "enum", false),
+                new StudentColumnDTO("lopHoc", "Grade", "text", true),
+                new StudentColumnDTO("coSo", "Campus", "enum", false),
+                new StudentColumnDTO("bacDaoTao", "Education Level", "enum", false),
+                new StudentColumnDTO("loaiHinhDaoTao", "Type of education", "enum", false),
+                new StudentColumnDTO("khoa", "Faculty", "text", true),
+                new StudentColumnDTO("nganh", "Major", "text", true),
+                new StudentColumnDTO("khoaHoc", "Academic Year", "text", true),
+                new StudentColumnDTO("ngayVaoTruong", "Ngày Vào Trường", "date", true),
+                new StudentColumnDTO("emailDnc", "Email", "text", true),
+                new StudentColumnDTO("dienThoai", "Phone number", "text", true),
+                new StudentColumnDTO("maHoSo", "Mã Hồ Sơ", "text", false)
+        ));
+
+        return columns;
     }
 }

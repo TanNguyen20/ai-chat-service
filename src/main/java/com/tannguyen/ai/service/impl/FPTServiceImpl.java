@@ -1,5 +1,6 @@
 package com.tannguyen.ai.service.impl;
 
+import com.tannguyen.ai.dto.FPTColumnDTO;
 import com.tannguyen.ai.dto.response.FPTResponseDTO;
 import com.tannguyen.ai.enums.FPTType;
 import com.tannguyen.ai.mapper.FPTMapper;
@@ -256,5 +257,24 @@ public class FPTServiceImpl implements FPTService {
                 "officeLocation", r.distinctOfficeLocation(),
                 "preferredLanguage", r.distinctPreferredLanguage()
         );
+    }
+
+    @Override
+    public List<FPTColumnDTO> getColumns() {
+        List<FPTColumnDTO> cols = new ArrayList<>();
+
+        cols.add(new FPTColumnDTO("displayName", "Display Name", "text", true));
+        cols.add(new FPTColumnDTO("givenName", "Given Name", "text", true));
+        cols.add(new FPTColumnDTO("surname", "Surname", "text", true));
+        cols.add(new FPTColumnDTO("jobTitle", "Job Title", "text", true));
+        cols.add(new FPTColumnDTO("mail", "Email", "email", true));
+        cols.add(new FPTColumnDTO("mobilePhone", "Mobile Phone", "phone", false));
+        cols.add(new FPTColumnDTO("userPrincipalName", "Username", "text", true));
+        cols.add(new FPTColumnDTO("officeLocation", "Office", "text", true));
+        cols.add(new FPTColumnDTO("preferredLanguage", "Language", "enum", false));
+        cols.add(new FPTColumnDTO("businessPhones", "Business Phones", "array", false));
+        cols.add(new FPTColumnDTO("odataType", "Type", "enum", true));
+
+        return cols;
     }
 }

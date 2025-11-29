@@ -114,4 +114,10 @@ public class StudentController {
     ) {
         return ResponseFactory.success(studentService.facets(studentType), "Get facets successfully", HttpStatus.OK);
     }
+
+    @GetMapping("/columns")
+    public ResponseEntity<?> getColumns() {
+        var columns = studentService.getColumns();
+        return ResponseFactory.success(columns, "Get student columns successfully", HttpStatus.OK);
+    }
 }

@@ -1,5 +1,6 @@
 package com.tannguyen.ai.service.inf;
 
+import com.tannguyen.ai.dto.FPTColumnDTO;
 import com.tannguyen.ai.dto.response.FPTResponseDTO;
 import com.tannguyen.ai.enums.FPTType;
 import org.springframework.data.domain.Page;
@@ -61,4 +62,6 @@ public interface FPTService {
     void deleteById(FPTType fptType, String id);
 
     Map<String, List<String>> facets(FPTType fptType);
+
+    List<FPTColumnDTO> getColumns();
 }

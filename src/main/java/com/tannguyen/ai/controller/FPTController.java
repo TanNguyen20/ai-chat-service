@@ -108,4 +108,10 @@ public class FPTController {
         var facets = fptService.facets(fptType);
         return ResponseFactory.success(facets, "Get FPT facets successfully", HttpStatus.OK);
     }
+
+    @GetMapping("/columns")
+    public ResponseEntity<?> columns() {
+        var cols = fptService.getColumns();
+        return ResponseFactory.success(cols, "Get FPT columns successfully", HttpStatus.OK);
+    }
 }

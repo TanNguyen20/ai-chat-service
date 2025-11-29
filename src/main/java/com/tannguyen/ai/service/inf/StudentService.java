@@ -1,5 +1,6 @@
 package com.tannguyen.ai.service.inf;
 
+import com.tannguyen.ai.dto.StudentColumnDTO;
 import com.tannguyen.ai.dto.request.StudentRequestDTO;
 import com.tannguyen.ai.dto.response.StudentResponseDTO;
 import com.tannguyen.ai.enums.StudentType;
@@ -55,4 +56,6 @@ public interface StudentService {
     void delete(StudentType studentType, String mssv);
 
     Map<String, List<String>> facets(StudentType studentType);
+
+    List<StudentColumnDTO> getColumns();
 }
