@@ -263,6 +263,7 @@ public class FPTServiceImpl implements FPTService {
     public List<FPTColumnDTO> getColumns() {
         List<FPTColumnDTO> cols = new ArrayList<>();
 
+        cols.add(new FPTColumnDTO("id", "ID", "text", false));
         cols.add(new FPTColumnDTO("displayName", "Display Name", "text", true));
         cols.add(new FPTColumnDTO("givenName", "Given Name", "text", true));
         cols.add(new FPTColumnDTO("surname", "Surname", "text", true));
